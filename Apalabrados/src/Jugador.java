@@ -5,14 +5,14 @@ public class Jugador {
 	private int puntuacion;
 	
 	
-	Jugador(){
-		this ("Jugador");
+	Jugador(Bolsa bolsa){
+		this ("Jugador",bolsa);
 	}
 	
-	Jugador(String Nombre){
+	Jugador(String Nombre,Bolsa bolsa){
 		nombreJugador=Nombre;
 		puntuacion =0;
-		setLasFichas();
+		setLasFichas(bolsa);
 	}
 
 
@@ -27,14 +27,14 @@ public class Jugador {
 
 	/**
 	 * @param establece las fichas del jugador
-	 * hay que hacerlo aleatorio
+	 * hay que hacerlo aleatorio tirando de un vector donde este el par letra-valor y segun el numero aleatorio cogerlo
 	 */
-	public void setLasFichas() {
+	public void setLasFichas(Bolsa bolsa) {
 		for (int i=0;i<7;i++){
-			lasFichas[i] = new Casilla();
-			lasFichas[i].setLetra((char) (i+65));
-			lasFichas[i].setValor(i+1);
-			lasFichas[i].setVacio(false);
+			// no hace falta esta instancia de casilla ya que en la bolsa estan instanciadas
+			// por lo tanto al igualar estamos enlazando con las fichas de la bolsa
+			// lasFichas[i] = new Casilla();
+			lasFichas[i]=bolsa.getFicha();
 		}
 	}
 
