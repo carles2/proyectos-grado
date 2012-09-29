@@ -5,13 +5,13 @@ public class Casilla {
 	private boolean vacio;
 	private boolean especial;
 	private boolean primeraVez;
-	private TipoCasilla tCasilla;
+	private Datos.TipoCasilla tCasilla;
 	
 	public Casilla(){
 		setVacio(true);
 		setPrimeraVez(true);
 		setEspecial(false);
-		setTCasilla(TipoCasilla.NORMAL);
+		setTCasilla(Datos.TipoCasilla.NORMAL);
 		/*
 		vacio= true;
 		especial=false;
@@ -84,13 +84,13 @@ public class Casilla {
 	/**
 	 * @return devuelve el tipo de casilla, NORMAL, DL, TL, DP, TP
 	 */
-	public TipoCasilla getTCasilla() {
+	public Datos.TipoCasilla getTCasilla() {
 		return tCasilla;
 	}
 	/**
 	 * @param establece  el tipo de casilla, NORMAL, DL, TL, DP, TP
 	 */
-	public void setTCasilla(TipoCasilla tCasilla) {
+	public void setTCasilla(Datos.TipoCasilla tCasilla) {
 		this.tCasilla = tCasilla;
 	}
 	
