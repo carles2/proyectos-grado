@@ -10,8 +10,7 @@ public class Diccionario {
 	//el valor inicial de la tabla es 50 palabras y el factor de carga es el 90%
 	// es decir cuando llega al 90% el hashset crece
 	private Set <String> miDiccionario = new HashSet <String> (50,0.9f);
-	
-	
+
 	Diccionario(){
 		try{
 			//inicio del fichero
@@ -30,6 +29,11 @@ public class Diccionario {
 		}
 	}
 	
+	/**
+	 * 
+	 * @param cadena, cadena de entrada a comprobar
+	 * @return devuelve true, si la cadena esta en el diccionario, false si no esta en el diccionario.
+	 */
 	public boolean EsValida(String cadena){
 		return miDiccionario.contains(cadena);
 	}

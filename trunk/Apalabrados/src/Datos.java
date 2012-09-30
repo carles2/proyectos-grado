@@ -9,4 +9,6 @@ public class Datos{
 
 	// hay que poner la ruta relativa ya se pondra la ruta final al entregarlo
 	public static final String NOMBRE_FICHERO_DICCIONARIO = ".\\src\\diccionario.dic";
+	
+	
 }

@@ -35,7 +35,7 @@ public class Bolsa {
 		numeroFichas=97;
 		miBolsa = new Casilla[97];
 		r=new Random();
-		for (int i=0;i<97;i++){
+		for (int i=0;i<miBolsa.length;i++){
 				miBolsa[i]=new Casilla();
 				miBolsa[i].setLetra((char)abecedario[i][0]);
 				miBolsa[i].setValor(abecedario[i][1]);

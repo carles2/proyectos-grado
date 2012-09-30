@@ -2,8 +2,12 @@
 public class Tablero {
 	
 	Casilla[][] elTablero; 
+	private PalabrasEncontradas palabrasEncontradas;
+	private Diccionario diccionario;
 			
 	Tablero(){
+		palabrasEncontradas = new PalabrasEncontradas();
+		diccionario = new Diccionario();
 		elTablero = new Casilla[15][];
 	    for (int i=0; i<15; i++){
 		   //asigno en memoria para cada fila
@@ -14,6 +18,26 @@ public class Tablero {
 	    	}
 	    }
 	    inicializa();
+	    
+	    /// zona de prueba
+		if (diccionario.EsValida("prueba")) System.out.println("Cadena encontrada");
+		else System.out.println("Cadena no encontrada");
+	    
+		if (palabrasEncontradas.setInsertarPalabra("prueba")) System.out.println("La palabra se ha introducido correctamente");
+		else System.out.println("La palabra esta duplicada");
+		
+		if (palabrasEncontradas.setInsertarPalabra("prueba")) System.out.println("La palabra se ha introducido correctamente");
+		else System.out.println("La palabra esta duplicada");
+		
+		System.out.println("lista de palabras: " + palabrasEncontradas.toString());
+		
+		if (palabrasEncontradas.EstaInsertada("prueba")) System.out.println("La palabra ya ha sido introducida");
+		else System.out.println("La palabra aun no esta introducida");
+		
+		if (palabrasEncontradas.EstaInsertada("prueba2")) System.out.println("La palabra ya ha sido introducida");
+		else System.out.println("La palabra aun no esta introducida");
+	    
+	    /// fin zona de pruebas
 	}
 	
 	/**
@@ -48,6 +72,76 @@ public class Tablero {
 			}
 	
 		}
+	}
+	
+	/**
+	 * 
+	 * @param direccion, si es true busca por filas y si es flase por columnas
+	 * @return devuelve la puntuacion total de las nuevas fichas.
+	 */
+	public int busqueda(boolean direccion){
+		boolean palabra=false;
+		char cadena[] = new char[15];
+		int puntuacion=0;
+		int puntuacionTotal=0;
+		int contador=0;
+		int multiplicador=1;
+		int x,y;
+		
+		for (int i=0; i<15;i++){
+			for(int j=0;j<15;j++){
+				if (direccion){
+					x=j;
+					y=i;
+				}else{
+					x=i;
+					y=j;
+				}
+			
+				if (!elTablero[x][y].isVacio()){
+					if (elTablero[x][y].isPrimeraVez()){
+						elTablero[x][y].setPrimeraVez(false); //ya ha sido evaluada para las DL y TL
+						if (elTablero[x][y].isEspecial()){
+							if (elTablero[x][y].getTCasilla()==Datos.TipoCasilla.DL)
+								multiplicador=2;
+							if (elTablero[x][y].getTCasilla()==Datos.TipoCasilla.TL)
+								multiplicador=3;
+						}
+					}
+					cadena[contador]=elTablero[x][y].getLetra();
+					contador++;
+					puntuacion=puntuacion + (elTablero[x][y].getValor()*multiplicador);	
+					multiplicador=1;
+					palabra=true;
+				}
+				else if(palabra){ // palabras dentro de la fila/columna
+					palabra=false;
+					String str = new String(cadena);
+					if (!palabrasEncontradas.EstaInsertada(str)){
+						palabrasEncontradas.setInsertarPalabra(str);
+						if (diccionario.EsValida(str))
+							puntuacionTotal = puntuacionTotal + puntuacion;
+					}
+					contador=0;
+					puntuacion=0;
+					for (int z=0;z<15;z++) cadena[z]=0;
+				}
+			}
+			// ha terminado la busqueda en la fila/columna pero puede haber una palabra hasta la ultima casilla
+			if(palabra){
+				palabra=false;
+				String str = new String(cadena);
+				if (!palabrasEncontradas.EstaInsertada(str)){
+					palabrasEncontradas.setInsertarPalabra(str);
+					if (diccionario.EsValida(str))
+						puntuacionTotal = puntuacionTotal + puntuacion;
+				}
+				contador=0;
+				puntuacion=0;
+				for (int z=0;z<15;z++) cadena[z]=0;
+			}
+		}
+		return puntuacionTotal;
 	}
 	
 	/**
