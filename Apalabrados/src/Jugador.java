@@ -34,11 +34,20 @@ public class Jugador {
 			// no hace falta esta instancia de casilla ya que en la bolsa estan instanciadas
 			// por lo tanto al igualar estamos enlazando con las fichas de la bolsa
 			// lasFichas[i] = new Casilla();
-			lasFichas[i]=bolsa.getFicha();
+			// ahora recore el vector de ficha y añade las que neceiste
+			// para que esto funcione una vez sacadas del jugador han de ponerse a null
+			if (lasFichas[i]==null)
+				lasFichas[i]=bolsa.getFicha();
 		}
 	}
 
-
+	/**
+	 *  realiza las acciones de las fichas.
+	 */
+	public void realizaTurno(){
+		
+	}
+	
 	/**
 	 * @return devuelve el nombre del jugador
 	 */
