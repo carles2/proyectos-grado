@@ -46,6 +46,9 @@ public class Jugador {
 	 */
 	public void realizaTurno(){
 		
+		// hay que hacer las cosas del turno mientras simulamos que sacamos todas las fichas.
+		for(int i=0;i<7;i++)lasFichas[i]=null;
+		
 	}
 	
 	/**
