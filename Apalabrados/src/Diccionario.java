@@ -9,7 +9,7 @@ public class Diccionario {
 	// crea el diccionario en tabla hash para insercciones y consultas mas rapidas
 	//el valor inicial de la tabla es 50 palabras y el factor de carga es el 90%
 	// es decir cuando llega al 90% el hashset crece
-	private Set <String> miDiccionario = new HashSet <String> (50,0.9f);
+	private Set <String> miDiccionario = new HashSet <String> (96000,0.9f);
 
 	Diccionario(){
 		try{
@@ -27,6 +27,7 @@ public class Diccionario {
 		}catch (Exception e){ //Catch de excepciones
 			System.err.println("Ocurrio un error: " + e.getMessage());
 		}
+		System.out.println("en el diccionario hay "+ miDiccionario.size()+" palabras");
 	}
 	
 	/**
