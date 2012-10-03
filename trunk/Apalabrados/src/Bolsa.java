@@ -7,6 +7,7 @@ public class Bolsa {
 	private Casilla[] miBolsa;
 	
 	Bolsa(){
+		
 		/** 
 		 * distribucion de letras segun el scrabbel original, a modificar segun la distribucion de apalabrados
 		 * 0 puntos: dos comodines

@@ -156,7 +156,8 @@ public class Jugador {
 			bOrientacion=false;
 		return bOrientacion;
 	}
-	 /**
+	
+	/**
      * Lee un carácter. Si se leen varios, se queda únicamente con el primero
      * @return Caracterleido
      * @throws IOException 
