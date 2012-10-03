@@ -15,9 +15,9 @@ public class Bolsa {
 		 * 3 puntos: B*2, C*4, M*2, P*2
 		 * 4 puntos: F*1, H*2, V*1, Y*1
 		 * 5 putnos: Q*1
-		 * 8 puntos: J*1, Ñ*1, X*1
+		 * 8 puntos: J*1, ï¿½*1, X*1
 		 * 10 puntos: Z*1
-		 * no esta la K ni la W, pero se podrian añadir a la de 10 puntos
+		 * no esta la K ni la W, pero se podrian aï¿½adir a la de 10 puntos
 		 */
 
 		int abecedario[][]={{65,1},{65,1},{65,1},{65,1},{65,1},{65,1},{65,1},{65,1},{65,1},{65,1},
