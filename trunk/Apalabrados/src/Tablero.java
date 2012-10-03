@@ -4,9 +4,11 @@ public class Tablero {
 	Casilla[][] elTablero; 
 	private PalabrasEncontradas palabrasEncontradas;
 	private Diccionario diccionario;
+	private Palabras palabras;
 			
 	Tablero(){
 		palabrasEncontradas = new PalabrasEncontradas();
+		palabras = new Palabras();
 		diccionario = new Diccionario();
 		elTablero = new Casilla[15][];
 	    for (int i=0; i<15; i++){
@@ -20,22 +22,24 @@ public class Tablero {
 	    inicializa();
 	    
 	    /// zona de prueba
+
 		if (diccionario.EsValida("prueba")) System.out.println("Cadena encontrada");
 		else System.out.println("Cadena no encontrada");
 	    
-		if (palabrasEncontradas.setInsertarPalabra("prueba")) System.out.println("La palabra se ha introducido correctamente");
+		if (palabrasEncontradas.setInsertarPalabra(new Palabras("prueba",25,true))) System.out.println("La palabra se ha introducido correctamente");
 		else System.out.println("La palabra esta duplicada");
 		
-		if (palabrasEncontradas.setInsertarPalabra("prueba")) System.out.println("La palabra se ha introducido correctamente");
+		if (palabrasEncontradas.setInsertarPalabra(new Palabras("prueba",25,true))) System.out.println("La palabra se ha introducido correctamente");
 		else System.out.println("La palabra esta duplicada");
 		
 		System.out.println("lista de palabras: " + palabrasEncontradas.toString());
 		
-		if (palabrasEncontradas.EstaInsertada("prueba")) System.out.println("La palabra ya ha sido introducida");
+		if (palabrasEncontradas.EstaInsertada(new Palabras("prueba",25,true))) System.out.println("La palabra ya ha sido introducida");
 		else System.out.println("La palabra aun no esta introducida");
 		
-		if (palabrasEncontradas.EstaInsertada("prueba2")) System.out.println("La palabra ya ha sido introducida");
+		if (palabrasEncontradas.EstaInsertada(new Palabras("prueba2",25,true))) System.out.println("La palabra ya ha sido introducida");
 		else System.out.println("La palabra aun no esta introducida");
+
 	    
 	    /// fin zona de pruebas
 	}
@@ -85,6 +89,10 @@ public class Tablero {
 	 */
 	private int busquedaDireccion(boolean direccion){
 		boolean palabra=false;
+		// variable para identificar la posicion para poder guardar varias palabras.
+		boolean inicioPalabra=false;
+		int posicion=-1;
+		//
 		char cadena[] = new char[15];
 		int puntuacion=0;
 		int puntuacionTotal=0;
@@ -125,12 +133,23 @@ public class Tablero {
 					puntuacion=puntuacion + (elTablero[x][y].getValor()*multiplicador);	
 					multiplicador=1;
 					palabra=true;
+					//control para guardar la posicion incio de la palabra
+					if (inicioPalabra==false){
+						inicioPalabra=true;
+						posicion =y*15+x;
+						
+					}
 				}
 				else if(palabra){ // palabras dentro de la fila/columna
 					palabra=false;
+					inicioPalabra=false;
+					posicion=-1;
 					String str = new String(cadena);
-					if (!palabrasEncontradas.EstaInsertada(str)){
-						palabrasEncontradas.setInsertarPalabra(str);
+					palabras.setCadena(str);
+					palabras.setPosicion(posicion);
+					palabras.setDireccion(direccion);
+					if (!palabrasEncontradas.EstaInsertada(palabras)){
+						palabrasEncontradas.setInsertarPalabra(palabras);
 						if (diccionario.EsValida(str))
 							puntuacionTotal = puntuacionTotal + (puntuacion*multiplicadorPalabra);
 					}
@@ -143,9 +162,14 @@ public class Tablero {
 			// ha terminado la busqueda en la fila/columna pero puede haber una palabra hasta la ultima casilla
 			if(palabra){
 				palabra=false;
+				inicioPalabra=false;
+				posicion=-1;
 				String str = new String(cadena);
-				if (!palabrasEncontradas.EstaInsertada(str)){
-					palabrasEncontradas.setInsertarPalabra(str);
+				palabras.setCadena(str);
+				palabras.setPosicion(posicion);
+				palabras.setDireccion(direccion);				
+				if (!palabrasEncontradas.EstaInsertada(palabras)){
+					palabrasEncontradas.setInsertarPalabra(palabras);
 					if (diccionario.EsValida(str))
 						puntuacionTotal = puntuacionTotal + (puntuacion*multiplicadorPalabra);
 				}
