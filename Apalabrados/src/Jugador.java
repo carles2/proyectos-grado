@@ -45,7 +45,7 @@ public class Jugador {
 			// no hace falta esta instancia de casilla ya que en la bolsa estan instanciadas
 			// por lo tanto al igualar estamos enlazando con las fichas de la bolsa
 			// lasFichas[i] = new Casilla();
-			// ahora recore el vector de ficha y a�ade las que neceiste
+			// ahora recore el vector de ficha y aï¿½ade las que neceiste
 			// para que esto funcione una vez sacadas del jugador han de ponerse a null
 			if (lasFichas[i]==null)
 			{
@@ -115,121 +115,92 @@ public class Jugador {
 	
 	/**
 	 * Permite utilizar las fichas disponibles para crear una nueva palabra
-	 * @return Palabra incompleta, todavía sin ser analizada
-	 * @throws IOException Excepción de E/S
+	 * @return Palabra incompleta, todavÃ­a sin ser analizada
+	 * @throws IOException ExcepciÃ³n de E/S
 	 */
 	protected Palabras UtilizarFichas() throws IOException
 	{
-		System.out.println("Escribe las posiciones de las fichas a introducir, y finaliza la introducción con un 0");
-		int posicion = 1; //Posición de la letra en el conjunto disponible
-		int posicionX, posicionY; //Posición en abcisa y ordenada de la primera letra
-		int puntuacionRelativa=0;
-		char orientacion;
+		System.out.println("Escribe las posiciones de las fichas a introducir, y finaliza la introducciÃ³n con un 0");
+		int posicion = 1; //PosiciÃ³n de la letra en el conjunto disponible
+		int posicionX, posicionY; //PosiciÃ³n en abcisa y ordenada de la primera letra
 		String palabra="";
 		while(posicion!=0)
 		{
-			//Pedimos por teclado un número entre 0 y 7
-			posicion=leerEntero(1);
-			//Añadimos letra a letra a la palabra para crearla
+			//Pedimos por teclado un nÃºmero entre 0 y 7
+			posicion=leerEntero(7);
+			//AÃ±adimos letra a letra a la palabra para crearla
 			palabra.concat(Character.toString(lasFichas[posicion-1].getLetra()));
-			//Sumamos la puntuación relativa de la palabra
-			puntuacionRelativa+=lasFichas[posicion-1].getValor();
+			//Sumamos la puntuaciÃ³n relativa de la palabra
 		}
-		System.out.println("Escribe la posición en abscisa de casilla inicial(X)");
-		posicionX=leerEntero(0);
-		System.out.println("Escribe la posición en ordenada de casilla inicial(Y)");
-		posicionY=leerEntero(0);
-		System.out.println("Escribe la orientación de la palabra (h/v)");
-		orientacion=leerCaracter();
-		boolean boolOrientacion=ConversionOrientacion(orientacion);
+		System.out.println("Escribe la posiciÃ³n en abscisa de casilla inicial(X)");
+		posicionX=leerEntero(15);
+		System.out.println("Escribe la posiciÃ³n en ordenada de casilla inicial(Y)");
+		posicionY=leerEntero(15);
+		System.out.println("Escribe la orientaciÃ³n de la palabra (h/v)");
+		boolean boolOrientacion=leerCaracter();
 		//QUEDA CREAR LA PALABRA, HAY QUE TENER EN CUENTA LAS LETRAS EXISTENTES POR MEDIO, PROVENIENTES DE PALABRAS
-		//YA ESCRITAS, ES DECIR, HABRÁ QUE COMPROBAR UNA A UNA LAS CASILLAS DEL TABLERO A PARTIR DE LOS 
+		//YA ESCRITAS, ES DECIR, HABRÃ� QUE COMPROBAR UNA A UNA LAS CASILLAS DEL TABLERO A PARTIR DE LOS 
 		//DATOS RECOPILADOS
 		int[] posicionInicial=new int[2];
 		posicionInicial[0]=posicionX;
 		posicionInicial[1]=posicionY;
 		Palabras palabraTemporal=new Palabras(palabra,posicionInicial,boolOrientacion);
 		//Palabra temporal puede no contener la palabra completa, es decir, si en
-		//el tablero se cruza en cualquier momento una palabra ya escrita, esta no está
-		//añadida en la palabra temporal.
+		//el tablero se cruza en cualquier momento una palabra ya escrita, esta no estÃ¡
+		//aÃ±adida en la palabra temporal.
 		return palabraTemporal;
 		//FALTA LA PUNTUACION RELATIVA!
 	}
 	
-	/**
-	 * Convertimos la orientación de la palabra en carácter a booleano
-	 * @param orientacion Carácter de entrada (h o v)
-	 * @return booleano (true horizontal y false vertical)
-	 */
-	private boolean ConversionOrientacion(char orientacion)
-	{
-		boolean bOrientacion;
-		if (orientacion=='h'||orientacion=='H')
-			bOrientacion=true;
-		else
-			bOrientacion=false;
-		return bOrientacion;
-	}
-	
-	/**
-     * Lee un carácter. Si se leen varios, se queda únicamente con el primero
-     * @return Caracterleido
-     * @throws IOException 
-     */
-    public char leerCaracter() throws IOException {
-    	BufferedReader Input;
-    	Input = new BufferedReader(new InputStreamReader(System.in));
-    	char caracter;
-    	while (true) {
-            String s = Input.readLine();
-            try {
-                caracter=s.trim().charAt(0);
-                if ((caracter!='h')&&(caracter!='H')&&(caracter!='v')&&(caracter!='V'))
-                throw new StringIndexOutOfBoundsException();
-                return caracter;
-            } catch (StringIndexOutOfBoundsException e) {
-                System.out.println("Prueba a escribir la orientación de nuevo");
-            }
-        }
-    }
+    /**
+ * Lee un carácter. Si se leen varios, se queda únicamente con el primero
+ * @return Caracterleido
+ */
+   public boolean leerCaracter(){
+    BufferedReader Input = new BufferedReader(new InputStreamReader(System.in));
+    char caracter=0;
+    String s=null;
+    boolean salida=false;
+    do{
+		try {
+			s = Input.readLine();
+	    	s=s.toUpperCase();
+	    	caracter=s.charAt(0);
+	    	if ((caracter!='H')&&(caracter!='V'))
+	    		 System.out.println("Prueba a escribir la orientación de nuevo");
+	    	else salida=true;
+		} catch (IOException e) {
+			e.printStackTrace();
+		} 
+    }while (salida);
+    return (caracter=='H'?true:false);
+}
 
-	
-	/**
-	 * Lee un entero. Sigue pidiendo el dato hasta que sea correcto.
-	 * 
-	 * @param modo  establece el modo en que ha de producirse la entrada por teclado:
-	 * 				0 para permitir la entrada de números entre 0 y 15, 1 para números entre 0 y 7
-	 * @return Entero leido
-	 * @throws IOException
-	 */
-	protected static int leerEntero(int modo) throws IOException {
-		BufferedReader Input;
-		Input = new BufferedReader(new InputStreamReader(System.in));
-		while (true) {
-			String s = Input.readLine();
-			int numero;
-			try {
-				numero=Integer.parseInt(s);
-				switch(modo)
-				{
-				case 0:
-					//En modo 0, si el número no se encuentra entre 0 y 15, lanza la excepción
-					if (numero<0||numero>15)
-					{
-						throw new NumberFormatException();
-					}
-					break;
-				case 1:
-					//En modo 1, si el número no se encuentra entre 0 y 7, lanza la excepción
-					if (numero<0||numero>7)
-					{
-						throw new NumberFormatException();
-					}
-				}
-				return numero;
-			} catch (NumberFormatException e) {
-				System.out.println("Error en el numero, prueba de nuevo.");
-			}
-		}
-	}
+   
+    /**
+     * Lee un entero. Sigue pidiendo el dato hasta que sea correcto.
+     *
+     * @param modo  establece el modo en que ha de producirse la entrada por teclado:
+     *                              0 para permitir la entrada de números entre 0 y 15, 1 para números entre 0 y 7
+     * @return Entero leido
+     * @throws IOException
+     */
+   public int leerEntero(int limite){
+	   BufferedReader Input = new BufferedReader(new InputStreamReader(System.in));
+	   String s=null;
+	   int numero=-1;
+	   boolean salida=false;
+	   do{
+		   try {
+			   s = Input.readLine();
+			   numero=Integer.parseInt(s);
+			   if ((numero<0)||(numero>limite))
+				   System.out.println("Error en el numero, prueba de nuevo.");
+			   else  salida=true;
+		   } catch (IOException e) {
+				e.printStackTrace();
+		   }
+	   }while(salida);
+	   return numero;
+   }
 }

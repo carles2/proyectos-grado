@@ -1,0 +1,6 @@
+modo del juego. tienen que terner sentido cuando las pones en el tablero. o se pierden y no ganas las puntuacion
+
+puntuacion del comodin. toma la puntuaicon de la ficha a la que sustitulle o toma 0
+
+finalizacion del juego, fin si no hay fichas en la bolsa o hasta que ambos jugadores dicen que finaliza. o si pasan los dos
+

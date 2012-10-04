@@ -24,14 +24,14 @@ public class Palabras implements Comparable<Object> {
 	}
 	/* (sin Javadoc)
 	 * @see java.lang.Object#hashCode()
-	
+	*/
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((cadena == null) ? 0 : cadena.hashCode());
 		result = prime * result + (direccion ? 1231 : 1237);
-		result = prime * result + posicion;
+		//result = prime * result + posicion;
 		return result;
 	}
 	
@@ -66,17 +66,7 @@ public class Palabras implements Comparable<Object> {
 		}
 		return true;
 	}
-	public String getCadena() {
-		return cadena;
-	}
 
-	public int[] getPosicion() {
-		return posicion;
-	}
-
-	public boolean isDireccion() {
-		return direccion;
-	}
 
 	/* (sin Javadoc)
 	 * @see java.lang.Object#toString()
@@ -116,6 +106,27 @@ public class Palabras implements Comparable<Object> {
 	 */
 	public void setDireccion(boolean direccion) {
 		this.direccion = direccion;
+	}
+
+	/**
+	 * @return el cadena
+	 */
+	public String getCadena() {
+		return cadena;
+	}
+
+	/**
+	 * @return el posicion
+	 */
+	public int[] getPosicion() {
+		return posicion;
+	}
+
+	/**
+	 * @return el direccion
+	 */
+	public boolean isDireccion() {
+		return direccion;
 	}
 
 }
