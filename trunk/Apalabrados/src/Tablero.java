@@ -143,7 +143,6 @@ public class Tablero {
 				else if(palabra){ // palabras dentro de la fila/columna
 					palabra=false;
 					inicioPalabra=false;
-					posicion=-1;
 					String str = new String(cadena);
 					palabras.setCadena(str);
 					palabras.setPosicion(posicion);
@@ -155,6 +154,7 @@ public class Tablero {
 					}
 					contador=0;
 					puntuacion=0;
+					posicion=-1;
 					multiplicadorPalabra=1;
 					for (int z=0;z<15;z++) cadena[z]=0;
 				}
@@ -163,10 +163,9 @@ public class Tablero {
 			if(palabra){
 				palabra=false;
 				inicioPalabra=false;
-				posicion=-1;
 				String str = new String(cadena);
 				palabras.setCadena(str);
-				palabras.setPosicion(posicion);
+				palabras.setPosicion();
 				palabras.setDireccion(direccion);				
 				if (!palabrasEncontradas.EstaInsertada(palabras)){
 					palabrasEncontradas.setInsertarPalabra(palabras);
@@ -175,6 +174,7 @@ public class Tablero {
 				}
 				contador=0;
 				puntuacion=0;
+				posicion=-1;
 				multiplicadorPalabra=1;
 				for (int z=0;z<15;z++) cadena[z]=0;
 			}
@@ -228,14 +228,12 @@ public class Tablero {
 		int iterador=0;
 		String palabraCompleta="";
 		boolean fuera=false;
-		if (orientacion==true) //Horizontal
-		{
 			while((iterador<Spalabra.length())&&(fuera==false))
 			{
 				try
 				{
 					//Si hay ya una letra se recoge el caracter, si no, se avanza la palabra 
-					if (elTablero[posicionInicialX][posicionInicialY]!=null)
+					if (!elTablero[posicionInicialX][posicionInicialY].isVacio())
 					{
 						Casilla letraT=elTablero[posicionInicialX][posicionInicialY];
 						char caracter=letraT.getLetra();
@@ -251,35 +249,13 @@ public class Tablero {
 				{
 					fuera=true;
 				}
-				posicionInicialX++;
+				if (orientacion)
+					posicionInicialX++;
+				else
+					posicionInicialY++;
 			}	
-		}
-		else //Vertical
-		{
-			while((iterador<Spalabra.length())&&(fuera==false))
-			{
-				try
-				{
-					//Si hay ya una letra se recoge el caracter, si no, se avanza la palabra 
-					if (elTablero[posicionInicialX][posicionInicialY]!=null)
-					{
-						Casilla letraT=elTablero[posicionInicialX][posicionInicialY];
-						char caracter=letraT.getLetra();
-						String conversion=String.valueOf(caracter);
-						palabraCompleta=palabraCompleta.concat(conversion);
-					}
-					else
-					{
-						palabraCompleta=palabraCompleta.concat(String.valueOf(Spalabra.charAt(iterador)));
-						iterador++;
-					}
-				}catch(Exception e)
-				{
-					fuera=true;
-				}
-				posicionInicialY++;
-			}
-		}
+			
+
 		return palabraCompleta;
 	}
 }
