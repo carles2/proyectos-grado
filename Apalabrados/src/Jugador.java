@@ -113,7 +113,12 @@ public class Jugador {
 
 	}
 	
-	protected void UtilizarFichas() throws IOException
+	/**
+	 * Permite utilizar las fichas disponibles para crear una nueva palabra
+	 * @return Palabra incompleta, todavía sin ser analizada
+	 * @throws IOException Excepción de E/S
+	 */
+	protected Palabras UtilizarFichas() throws IOException
 	{
 		System.out.println("Escribe las posiciones de las fichas a introducir, y finaliza la introducción con un 0");
 		int posicion = 1; //Posición de la letra en el conjunto disponible
@@ -136,10 +141,19 @@ public class Jugador {
 		posicionY=leerEntero(0);
 		System.out.println("Escribe la orientación de la palabra (h/v)");
 		orientacion=leerCaracter();
+		boolean boolOrientacion=ConversionOrientacion(orientacion);
 		//QUEDA CREAR LA PALABRA, HAY QUE TENER EN CUENTA LAS LETRAS EXISTENTES POR MEDIO, PROVENIENTES DE PALABRAS
 		//YA ESCRITAS, ES DECIR, HABRÁ QUE COMPROBAR UNA A UNA LAS CASILLAS DEL TABLERO A PARTIR DE LOS 
 		//DATOS RECOPILADOS
-		
+		int[] posicionInicial=new int[2];
+		posicionInicial[0]=posicionX;
+		posicionInicial[1]=posicionY;
+		Palabras palabraTemporal=new Palabras(palabra,posicionInicial,boolOrientacion);
+		//Palabra temporal puede no contener la palabra completa, es decir, si en
+		//el tablero se cruza en cualquier momento una palabra ya escrita, esta no está
+		//añadida en la palabra temporal.
+		return palabraTemporal;
+		//FALTA LA PUNTUACION RELATIVA!
 	}
 	
 	/**
