@@ -26,7 +26,7 @@ public class Tablero {
 		if (diccionario.EsValida("prueba")) System.out.println("Cadena encontrada");
 		else System.out.println("Cadena no encontrada");
 	    
-		if (palabrasEncontradas.setInsertarPalabra(new Palabras("prueba",25,true))) System.out.println("La palabra se ha introducido correctamente");
+		/*if (palabrasEncontradas.setInsertarPalabra(new Palabras("prueba",25,true))) System.out.println("La palabra se ha introducido correctamente");
 		else System.out.println("La palabra esta duplicada");
 		
 		if (palabrasEncontradas.setInsertarPalabra(new Palabras("prueba",25,true))) System.out.println("La palabra se ha introducido correctamente");
@@ -39,7 +39,7 @@ public class Tablero {
 		
 		if (palabrasEncontradas.EstaInsertada(new Palabras("prueba2",25,true))) System.out.println("La palabra ya ha sido introducida");
 		else System.out.println("La palabra aun no esta introducida");
-
+*/
 	    
 	    /// fin zona de pruebas
 	}
@@ -210,5 +210,76 @@ public class Tablero {
 			System.out.println("-------------------------------------------------------------");
 			
 		}
+	}
+	
+	/**
+	 * Devuelve la palabra completa (incluyendo las letras ya puestas en el tablero)
+	 * @param palabra Palabra incompleta (o no, no se sabe)
+	 * @return Palabra completa, lista para verificar
+	 */
+	protected String DevuelvePalabraCompleta(Palabras palabra)
+	{
+		//Inicialización
+		int[] posicionInicial=palabra.getPosicion();
+		int posicionInicialX=posicionInicial[0];
+		int posicionInicialY=posicionInicial[1];
+		boolean orientacion=palabra.isDireccion();
+		String Spalabra=palabra.getCadena();
+		int iterador=0;
+		String palabraCompleta="";
+		boolean fuera=false;
+		if (orientacion==true) //Horizontal
+		{
+			while((iterador<Spalabra.length())&&(fuera==false))
+			{
+				try
+				{
+					//Si hay ya una letra se recoge el caracter, si no, se avanza la palabra 
+					if (elTablero[posicionInicialX][posicionInicialY]!=null)
+					{
+						Casilla letraT=elTablero[posicionInicialX][posicionInicialY];
+						char caracter=letraT.getLetra();
+						String conversion=String.valueOf(caracter);
+						palabraCompleta=palabraCompleta.concat(conversion);
+					}
+					else
+					{
+						palabraCompleta=palabraCompleta.concat(String.valueOf(Spalabra.charAt(iterador)));
+						iterador++;
+					}
+				}catch(Exception e)
+				{
+					fuera=true;
+				}
+				posicionInicialX++;
+			}	
+		}
+		else //Vertical
+		{
+			while((iterador<Spalabra.length())&&(fuera==false))
+			{
+				try
+				{
+					//Si hay ya una letra se recoge el caracter, si no, se avanza la palabra 
+					if (elTablero[posicionInicialX][posicionInicialY]!=null)
+					{
+						Casilla letraT=elTablero[posicionInicialX][posicionInicialY];
+						char caracter=letraT.getLetra();
+						String conversion=String.valueOf(caracter);
+						palabraCompleta=palabraCompleta.concat(conversion);
+					}
+					else
+					{
+						palabraCompleta=palabraCompleta.concat(String.valueOf(Spalabra.charAt(iterador)));
+						iterador++;
+					}
+				}catch(Exception e)
+				{
+					fuera=true;
+				}
+				posicionInicialY++;
+			}
+		}
+		return palabraCompleta;
 	}
 }

@@ -6,19 +6,25 @@
  */
 public class Palabras implements Comparable<Object> {
 	private String cadena;
-	private int posicion;
+	private int[] posicion=new int[2];
 	private boolean direccion;
 	
 	public Palabras(){}
 	
-	public Palabras(String cadena, int posicion, boolean direccion){
+	/**
+	 * Constructor parametrizado
+	 * @param cadena String con la palabra
+	 * @param posicion Posición inicial
+	 * @param direccion Orientacion (horizontal = true y vertical = false)
+	 */
+	public Palabras(String cadena, int[] posicion, boolean direccion){
 		this.cadena=cadena;
 		this.posicion=posicion;
 		this.direccion=direccion;
 	}
 	/* (sin Javadoc)
 	 * @see java.lang.Object#hashCode()
-	 */
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -28,9 +34,11 @@ public class Palabras implements Comparable<Object> {
 		result = prime * result + posicion;
 		return result;
 	}
-	/* (sin Javadoc)
+	
+	/*(sin Javadoc)
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -58,6 +66,18 @@ public class Palabras implements Comparable<Object> {
 		}
 		return true;
 	}
+	public String getCadena() {
+		return cadena;
+	}
+
+	public int[] getPosicion() {
+		return posicion;
+	}
+
+	public boolean isDireccion() {
+		return direccion;
+	}
+
 	/* (sin Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
@@ -66,15 +86,17 @@ public class Palabras implements Comparable<Object> {
 		return "Palabras [cadena=" + cadena + ", posicion=" + posicion
 				+ ", direccion=" + direccion + "]";
 	}
+	
 	@Override
 	public int compareTo(Object o) {
 		Palabras palabras = (Palabras) o;
 		int comparadorCadena = cadena.compareToIgnoreCase(palabras.cadena);
-		int comparadorPosicion = Integer.compare(posicion, palabras.posicion);
+		int comparadorPosicionX = Integer.compare(posicion[0], palabras.posicion[0]);
+		int comparadorPosicionY = Integer.compare(posicion[1], palabras.posicion[1]);
 		int comparadorDireccion= Boolean.compare(direccion, palabras.direccion);
-		return (comparadorCadena!=0?comparadorCadena:comparadorPosicion!=0?comparadorPosicion:comparadorDireccion);
+		return (comparadorCadena!=0?comparadorCadena:comparadorPosicionX!=0?comparadorPosicionX:comparadorPosicionY!=0?comparadorPosicionY:comparadorDireccion);
 	}
-
+	
 	/**
 	 * @param cadena el cadena a establecer
 	 */
@@ -85,7 +107,7 @@ public class Palabras implements Comparable<Object> {
 	/**
 	 * @param posicion el posicion a establecer
 	 */
-	public void setPosicion(int posicion) {
+	public void setPosicion(int[] posicion) {
 		this.posicion = posicion;
 	}
 
