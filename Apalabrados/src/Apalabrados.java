@@ -18,9 +18,9 @@ public class Apalabrados {
 		//realiza el juego mientras queden fichas
 		do{
 			jugador1.pintaFichas();
-			jugador1.realizaTurno();
-			jugador1.setLasFichas(bolsa);
-			jugador1.setPuntuacion(tablero.busqueda());
+			jugador1.realizaTurno(tablero.getTablero(),bolsa);
+			//jugador1.setLasFichas(bolsa);
+			//jugador1.setPuntuacion(tablero.busqueda());
 			// pinta la puntuacion
 			System.out.println("puntuacion del jugador "+jugador1.getNombreJugador()+": "+jugador1.getPuntuacion()+" puntos");
 			///
@@ -28,9 +28,9 @@ public class Apalabrados {
 			///
 			tablero.pintaTablero();
 			jugador2.pintaFichas();
-			jugador2.realizaTurno();
-			jugador2.setLasFichas(bolsa);
-			jugador2.setPuntuacion(tablero.busqueda());
+			jugador2.realizaTurno(tablero.getTablero(),bolsa);
+			//jugador2.setLasFichas(bolsa);
+			//jugador2.setPuntuacion(tablero.busqueda());
 			// pinta la puntuacion
 			System.out.println("puntuacion del jugador "+jugador2.getNombreJugador()+": "+jugador2.getPuntuacion()+" puntos");
 			///

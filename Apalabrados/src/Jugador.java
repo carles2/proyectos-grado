@@ -58,11 +58,159 @@ public class Jugador {
 	/**
 	 *  realiza las acciones de las fichas.
 	 */
-	public void realizaTurno(){
-		
-		// hay que hacer las cosas del turno mientras simulamos que sacamos todas las fichas.
-		for(int i=0;i<7;i++)lasFichas[i]=null;
-		
+	public void realizaTurno(Casilla[][] tablero,Bolsa bolsa){
+		// lo que esta sin el * es la lina que falta por hacer
+		/*
+		*hacer
+		*	hacer
+		*		selecciono jugar o paso turno
+		*	mientras opcion no valida
+		*	si juego
+		*		hacer 
+		*			seleciono mi ficha o tablero o validar
+		*			hacer	// control de coordenada correcta
+		*				selecciono coordenada
+		*			mientras coordenada no valida 	// fin control coordenada
+		*			si mi ficha
+		*				hacer
+		*					selecciono ficha (1-7)
+		*				mientras posicion no valida
+		*				añado a vector temporal de palabras mi ficha
+		*				fin si mi ficha
+		*			sino
+		*			si es tablero
+		*				copio la casilla de tablero a vector temporal de palabras
+		*			fin si es tablero
+		*			sino
+		*				si es validar
+							recorro vector temporal de palbras y calculo la puntuacion
+								si esta en el diccionario, 
+								incremento la puntuacion
+		*						copio las fichas del vector temporal de palabras al tablero
+		*						elimino las fichas del usuario
+							fin si en diccionario
+		*					borro vector temporal	
+		*				fin si validar
+		*		mientras no validar
+		*	sino
+		*		paso turno
+		*hasta paso de turno
+		*pido fichas neuvas a la bolsa
+
+		*/
+		boolean turno=false;
+		boolean salida=false;
+		int posx,posy,posicion;
+		CadenaCasilla[] cadenaCasilla = new CadenaCasilla[15];
+		BufferedReader Input = new BufferedReader(new InputStreamReader(System.in));
+	    char caracter=0;
+	    String s=null;
+	    int contador=0;
+		do{
+			salida=false;
+			System.out.print("¿Quieres jugar o pasar turno?: (J/T) ");
+			do{
+				try {
+					s = Input.readLine();
+			    	s=s.toUpperCase();
+			    	caracter=s.charAt(0);
+			    	if ((caracter!='J')&&(caracter!='T'))
+				   		 System.out.println("Prueba a escribir la opcion correcta");
+				   	else salida=true;
+				} catch (IOException e) {
+					e.printStackTrace();
+				} 
+			}while(salida==false);
+			//caracter tiene la opcion del juego
+			//se inicializa de nuevo salida para el nuevo control.
+			salida=false;
+
+			if (caracter=='J'){// juego
+				boolean validar=false;
+				do{
+					System.out.print("Selecciona tablero, mis fichas o validar: (T/M/V) ");
+					do{
+						try {
+							s = Input.readLine();
+					    	s=s.toUpperCase();
+					    	caracter=s.charAt(0);
+					    	if ((caracter!='M')&&(caracter!='T')&&(caracter!='V'))
+						   		 System.out.println("Prueba a escribir la opcion correcta");
+						   	else salida=true;
+						} catch (IOException e) {
+							e.printStackTrace();
+						} 
+					}while(salida==false);
+					// iniciamos salida a false de nuevo para el proximo contro
+					salida=false;
+					//en caracter tenemos el modo de juego, ahora pedimos las coordenada
+					if (caracter=='J'){
+						// pedimos la posicion de la ficha con la que jugamos
+						System.out.print("Introduce la posicion de la ficha a usar: (0/6) ");
+						posicion=leerEntero(6);
+						//pedimos la coordenada a poner					
+						do{
+
+							System.out.print("Introduce la coordenada X a insertar: (0/14)");
+							posx=leerEntero(14);
+							System.out.print("Introduce la coordenada Y a insertar: (0/14)");
+							posy=leerEntero(14);
+						
+							if (tablero[posx][posy].isVacio()){
+								cadenaCasilla[contador].setCasilla(lasFichas[posicion]);
+								cadenaCasilla[contador].setJugador(true);
+								cadenaCasilla[contador].setPosicion(posicion);
+								contador++;
+								salida=true;
+							}
+							else System.out.println("Las coordenada introducida ya esta en uso, intentalo de nuevo");
+						}while(salida==false);
+					}
+					if (caracter=='T'){
+						do{
+							System.out.print("Introduce la coordenada X: (0/14)");
+							posx=leerEntero(14);
+							System.out.print("Introduce la coordenada Y: (0/14)");
+							posy=leerEntero(14);
+						
+							if (!tablero[posx][posy].isVacio()){
+								cadenaCasilla[contador].setCasilla(tablero[posx][posy]);
+								cadenaCasilla[contador].setJugador(false);
+								contador++;
+								salida=true;
+							}
+							else System.out.println("Las coordenada introducidas no son de una ficha, intentalo de nuevo");
+						}while(salida==false);
+					}
+					if (caracter=='V')
+						validar=true;
+				}while(validar==false);
+////////////////////////////////////////////
+				/*
+				falta realizar la busqueda en el diccionario
+				falta realizar la puntuacion
+				*/
+///////////////////////////////////////////		
+				//puntuacion
+				//if dicioncario //
+					//quitamos las fichas del jugador
+					for (int i=0;i<15;i++){// recorremos el vector temporal y mueve todas las fichas al tablero borrandolas del jugador
+						if(cadenaCasilla[i].isJugador()){
+							tablero[cadenaCasilla[i].getCasilla().getPosicionX()][cadenaCasilla[i].getCasilla().getPosicionY()]=cadenaCasilla[i].getCasilla();
+							lasFichas[cadenaCasilla[i].getPosicion()]=null;
+						}
+					}
+				//fin if diccionario
+				contador=0;
+				//borrado del vector
+				for(int i=0;i<cadenaCasilla.length;i++)
+					cadenaCasilla[i]=null;
+			}
+			else // pasamos turno
+				turno=true;
+		}while (turno==false);
+		//pedimos nuevas fichas
+		setLasFichas(bolsa);
 	}
 	
 	/**
@@ -113,45 +261,8 @@ public class Jugador {
 
 	}
 	
-	/**
-	 * Permite utilizar las fichas disponibles para crear una nueva palabra
-	 * @return Palabra incompleta, todavÃ­a sin ser analizada
-	 * @throws IOException ExcepciÃ³n de E/S
-	 */
-	protected Palabras UtilizarFichas() throws IOException
-	{
-		System.out.println("Escribe las posiciones de las fichas a introducir, y finaliza la introducciÃ³n con un 0");
-		int posicion = 1; //PosiciÃ³n de la letra en el conjunto disponible
-		int posicionX, posicionY; //PosiciÃ³n en abcisa y ordenada de la primera letra
-		String palabra="";
-		while(posicion!=0)
-		{
-			//Pedimos por teclado un nÃºmero entre 0 y 7
-			posicion=leerEntero(7);
-			//AÃ±adimos letra a letra a la palabra para crearla
-			palabra.concat(Character.toString(lasFichas[posicion-1].getLetra()));
-			//Sumamos la puntuaciÃ³n relativa de la palabra
-		}
-		System.out.println("Escribe la posiciÃ³n en abscisa de casilla inicial(X)");
-		posicionX=leerEntero(15);
-		System.out.println("Escribe la posiciÃ³n en ordenada de casilla inicial(Y)");
-		posicionY=leerEntero(15);
-		System.out.println("Escribe la orientaciÃ³n de la palabra (h/v)");
-		boolean boolOrientacion=leerCaracter();
-		//QUEDA CREAR LA PALABRA, HAY QUE TENER EN CUENTA LAS LETRAS EXISTENTES POR MEDIO, PROVENIENTES DE PALABRAS
-		//YA ESCRITAS, ES DECIR, HABRÃ� QUE COMPROBAR UNA A UNA LAS CASILLAS DEL TABLERO A PARTIR DE LOS 
-		//DATOS RECOPILADOS
-		int[] posicionInicial=new int[2];
-		posicionInicial[0]=posicionX;
-		posicionInicial[1]=posicionY;
-		Palabras palabraTemporal=new Palabras(palabra,posicionInicial,boolOrientacion);
-		//Palabra temporal puede no contener la palabra completa, es decir, si en
-		//el tablero se cruza en cualquier momento una palabra ya escrita, esta no estÃ¡
-		//aÃ±adida en la palabra temporal.
-		return palabraTemporal;
-		//FALTA LA PUNTUACION RELATIVA!
-	}
-	
+// esta funciona ya no es valida pero haber si la podemos adaptar para usarla dentro de turno y no usar
+	// tantos do while
     /**
  * Lee un carácter. Si se leen varios, se queda únicamente con el primero
  * @return Caracterleido
@@ -203,4 +314,5 @@ public class Jugador {
 	   }while(salida);
 	   return numero;
    }
+   
 }
