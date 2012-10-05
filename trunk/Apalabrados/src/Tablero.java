@@ -2,13 +2,9 @@
 public class Tablero {
 	
 	Casilla[][] elTablero; 
-	private PalabrasEncontradas palabrasEncontradas;
 	private Diccionario diccionario;
-	private Palabras palabras;
 			
 	Tablero(){
-		palabrasEncontradas = new PalabrasEncontradas();
-		palabras = new Palabras();
 		diccionario = new Diccionario();
 		elTablero = new Casilla[15][];
 	    for (int i=0; i<15; i++){
@@ -67,6 +63,8 @@ public class Tablero {
 		for (int i=0;i<matriz.length;i++){
 			//establecemos la casilla x,y del tipo especial
 			elTablero[matriz[i][0]][matriz[i][1]].setEspecial(true);
+			elTablero[matriz[i][0]][matriz[i][1]].setPosicionX(matriz[i][0]);
+			elTablero[matriz[i][0]][matriz[i][1]].setPosicionY(matriz[i][1]);
 			// segun el tercer parametro del vector establecemos el tipo de casilla especial.
 			switch (matriz[i][2]){
 				case 1: elTablero[matriz[i][0]][matriz[i][1]].setTCasilla(Datos.TipoCasilla.DL);break;
@@ -79,8 +77,24 @@ public class Tablero {
 		elTablero[7][7].setVacio(false);
 		elTablero[7][7].setLetra('*');
 		elTablero[7][7].setValor(0);
+		elTablero[7][7].setPosicionX(7);
+		elTablero[7][7].setPosicionY(7);
 	}
 	
+	/**
+	 * 
+	 * @return devuelve el tablero de casillas actual
+	 */
+	public Casilla[][] getTablero(){
+		return elTablero;
+	}
+	
+	public void setCasilla(Casilla casilla){
+		
+	}
+	
+	
+	// esta funcion habra que borrarla entera pero se deja por ahora para la puntuacion
 	/**
 	 * 
 	 * @param direccion, si es true busca por filas y si es flase por columnas
@@ -140,7 +154,9 @@ public class Tablero {
 						
 					}
 				}
-				else if(palabra){ // palabras dentro de la fila/columna
+				else{
+					/*
+					if(palabra){ // palabras dentro de la fila/columna
 					palabra=false;
 					inicioPalabra=false;
 					String str = new String(cadena);
@@ -157,6 +173,7 @@ public class Tablero {
 					posicion=-1;
 					multiplicadorPalabra=1;
 					for (int z=0;z<15;z++) cadena[z]=0;
+					*/
 				}
 			}
 			// ha terminado la busqueda en la fila/columna pero puede haber una palabra hasta la ultima casilla
@@ -164,6 +181,7 @@ public class Tablero {
 				palabra=false;
 				inicioPalabra=false;
 				String str = new String(cadena);
+				/*
 				palabras.setCadena(str);
 				palabras.setPosicion();
 				palabras.setDireccion(direccion);				
@@ -172,6 +190,7 @@ public class Tablero {
 					if (diccionario.EsValida(str))
 						puntuacionTotal = puntuacionTotal + (puntuacion*multiplicadorPalabra);
 				}
+				*/
 				contador=0;
 				puntuacion=0;
 				posicion=-1;
@@ -182,14 +201,19 @@ public class Tablero {
 		return puntuacionTotal;
 	}
 	
+	
+	// esta funcion ya no es necesaria se realiza todo en turno, dentro de jugador.
 	/**
 	 * 
 	 * @return devuelve la puntuacion total de las dos busquedas de las palabras, tanto vertical
 	 * como horizontal
 	 */
+	
+	/*
 	public int busqueda(){
 		return busquedaDireccion(true)+busquedaDireccion(false);
 	}
+	*/
 	
 	/**
 	 * Funcion que pinta el tablero en la salida estandar
@@ -212,50 +236,5 @@ public class Tablero {
 		}
 	}
 	
-	/**
-	 * Devuelve la palabra completa (incluyendo las letras ya puestas en el tablero)
-	 * @param palabra Palabra incompleta (o no, no se sabe)
-	 * @return Palabra completa, lista para verificar
-	 */
-	protected String DevuelvePalabraCompleta(Palabras palabra)
-	{
-		//Inicialización
-		int[] posicionInicial=palabra.getPosicion();
-		int posicionInicialX=posicionInicial[0];
-		int posicionInicialY=posicionInicial[1];
-		boolean orientacion=palabra.isDireccion();
-		String Spalabra=palabra.getCadena();
-		int iterador=0;
-		String palabraCompleta="";
-		boolean fuera=false;
-			while((iterador<Spalabra.length())&&(fuera==false))
-			{
-				try
-				{
-					//Si hay ya una letra se recoge el caracter, si no, se avanza la palabra 
-					if (!elTablero[posicionInicialX][posicionInicialY].isVacio())
-					{
-						Casilla letraT=elTablero[posicionInicialX][posicionInicialY];
-						char caracter=letraT.getLetra();
-						String conversion=String.valueOf(caracter);
-						palabraCompleta=palabraCompleta.concat(conversion);
-					}
-					else
-					{
-						palabraCompleta=palabraCompleta.concat(String.valueOf(Spalabra.charAt(iterador)));
-						iterador++;
-					}
-				}catch(Exception e)
-				{
-					fuera=true;
-				}
-				if (orientacion)
-					posicionInicialX++;
-				else
-					posicionInicialY++;
-			}	
-			
-
-		return palabraCompleta;
-	}
 }
+
