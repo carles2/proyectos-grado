@@ -331,7 +331,7 @@ public class Jugador {
 		   } catch (IOException e) {
 				e.printStackTrace();
 		   }
-	   }while(salida);
+	   }while(!salida);
 	   return numero;
    }
    
