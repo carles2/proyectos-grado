@@ -55,7 +55,7 @@ public class Jugador {
 	/**
 	 *  realiza las acciones de las fichas.
 	 */
-	public void realizaTurno(Casilla[][] tablero,Bolsa bolsa, Diccionario diccionario){
+	public void realizaTurno(Tablero tablero,Bolsa bolsa, Diccionario diccionario){
 		// lo que esta sin el * es la lina que falta por hacer
 		/*
 		*hacer
@@ -102,6 +102,7 @@ public class Jugador {
 	    char caracter;
 	    int contador=0;
 	    boolean[] fichasNoUsadas= new boolean[7];
+	    for (int i=0;i<cadenaCasilla.length;i++) cadenaCasilla[i]=new CadenaCasilla();
 	    for (int i = 0;i<7;i++) fichasNoUsadas[i]=true;
 		do{
 			System.out.print("¿Quieres jugar o pasar turno?: (J/T) ");
@@ -123,11 +124,11 @@ public class Jugador {
 							posy=leerEntero(14);
 							
 							switch(caracter){
-							case 'M': if (!tablero[posx][posy].isVacio())
+							case 'M': if (!tablero.getCasilla(posx, posy).isVacio())
 										System.out.println("Las coordenada introducida ya esta en uso, intentalo de nuevo");
 									  else salida=true;
 									  break;
-							case 'T': if (tablero[posx][posy].isVacio())
+							case 'T': if (tablero.getCasilla(posx, posy).isVacio())
 										System.out.println("La coordenada introducida no son de una ficha, intentalo de nuevo");
 									  else salida=true;
 									  break;
@@ -157,7 +158,7 @@ public class Jugador {
 					}
 					if (caracter=='T'){
 				
-						cadenaCasilla[contador].setCasilla(tablero[posx][posy]);
+						cadenaCasilla[contador].setCasilla(tablero.getCasilla(posx, posy));
 						cadenaCasilla[contador].setJugador(false);
 						contador++;
 						
@@ -174,7 +175,7 @@ public class Jugador {
 				int puntuacionProv=0;
 				int multiplicador=1;
 				int multiplicadorPalabra=1;
-				for (int i=0;(cadenaCasilla[i]!=null)&&(i<15);i++){
+				for (int i=0;(cadenaCasilla[i].getCasilla()!=null)&&(i<15);i++){
 					palabraEvaluar=palabraEvaluar.concat(String.valueOf(cadenaCasilla[i].getCasilla().getLetra()));
 					
 					//puntuacion
@@ -198,11 +199,12 @@ public class Jugador {
                 if (diccionario.EsValida(palabraEvaluar)){//La palabra es válida
                          setPuntuacion(puntuacionProv*multiplicadorPalabra);
                          multiplicadorPalabra=1;
-                         for (int i=0;(cadenaCasilla[i]!=null)&&(i<15);i++){
+                         for (int i=0;(cadenaCasilla[i].getCasilla()!=null)&&(i<15);i++){
                              //solo añade las casillas del jugador y borra del jugador
                         	 if(cadenaCasilla[i].isJugador()){
                         		cadenaCasilla[i].getCasilla().setVacio(false);
-     							tablero[cadenaCasilla[i].getCasilla().getPosicionX()][cadenaCasilla[i].getCasilla().getPosicionY()]=cadenaCasilla[i].getCasilla();
+                        		tablero.setCasilla(cadenaCasilla[i].getCasilla());
+     							//tablero[cadenaCasilla[i].getCasilla().getPosicionX()][cadenaCasilla[i].getCasilla().getPosicionY()]=cadenaCasilla[i].getCasilla();
      							lasFichas[cadenaCasilla[i].getPosicion()]=null;
      						}
                          }
