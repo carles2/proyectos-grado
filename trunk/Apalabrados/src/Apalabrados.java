@@ -28,7 +28,7 @@ public class Apalabrados {
 		    	System.out.print("¿Quieres jugar, pasar turno?: (J/T) ");
 		    	caracter=jugador1.leerCaracter("JugaroPasar");
 		    	if (caracter=='J'){// juego
-		    		cadenaCasilla=jugador1.realizaTurno(tablero.getTablero(), bolsa);
+		    		cadenaCasilla=jugador1.realizaPalabra(tablero.getTablero(), bolsa);
 		    		palabraEvaluar="";
 		    		puntuacionProv=0;
 		    		//Hallamos el String para saber si está en el diccionario
@@ -40,9 +40,14 @@ public class Apalabrados {
 		    		if (diccionario.EsValida(palabraEvaluar))
 		    		//La palabra es válida
 		    		{
-		    			
+		    			jugador1.setPuntuacion(jugador1.getPuntuacion()+puntuacionProv);
+		    			for (int i=0;(cadenaCasilla[i]!=null)&&(i<15);i++)
+			    		{
+			    			//Añade las casillas al tablero (si ya están, las machaca sin mas)
+		    				tablero.setCasilla(cadenaCasilla[i].getCasilla());
+			    		}
 		    		}
-		    		else //La palabra no es válida
+		    		else //La palabra no es válida, no se añade al tablero ni se suma la puntuación
 		    		{
 		    			
 		    		}
@@ -65,7 +70,7 @@ public class Apalabrados {
 			
 			
 			jugador1.pintaFichas();
-			jugador1.realizaTurno(tablero.getTablero(),bolsa);
+			jugador1.realizaPalabra(tablero.getTablero(),bolsa);
 			//jugador1.setLasFichas(bolsa);
 			//jugador1.setPuntuacion(tablero.busqueda());
 			// pinta la puntuacion
@@ -75,7 +80,7 @@ public class Apalabrados {
 			///
 			tablero.pintaTablero();
 			jugador2.pintaFichas();
-			jugador2.realizaTurno(tablero.getTablero(),bolsa);
+			jugador2.realizaPalabra(tablero.getTablero(),bolsa);
 			//jugador2.setLasFichas(bolsa);
 			//jugador2.setPuntuacion(tablero.busqueda());
 			// pinta la puntuacion
