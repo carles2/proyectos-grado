@@ -58,7 +58,7 @@ public class Jugador {
 	/**
 	 *  realiza las acciones de las fichas.
 	 */
-	public void realizaTurno(Casilla[][] tablero,Bolsa bolsa){
+	public CadenaCasilla[] realizaTurno(Casilla[][] tablero,Bolsa bolsa){
 		// lo que esta sin el * es la lina que falta por hacer
 		/*
 		*hacer
@@ -102,19 +102,17 @@ public class Jugador {
 		boolean salida=false;
 		int posx,posy,posicion;
 		CadenaCasilla[] cadenaCasilla = new CadenaCasilla[15];
-		BufferedReader Input = new BufferedReader(new InputStreamReader(System.in));
-	    char caracter;
+		char caracter;
 	    String s=null;
 	    int contador=0;
-	    do{
+	    /*do{
 	    	salida=false;
 	    	System.out.print("¿Quieres jugar, pasar turno?: (J/T) ");
 	    	caracter=leerCaracter("JugaroPasar");
 	    	//caracter tiene la opcion del juego
 	    	//se inicializa de nuevo salida para el nuevo control.
-	    	salida=false;
 
-	    	if (caracter=='J'){// juego
+	    	if (caracter=='J'){// juego*/
 	    		boolean validar=false;
 	    		do{
 	    			//Aquí empieza la modificación
@@ -147,6 +145,8 @@ public class Jugador {
 	    				validar=true;
 	    			}
 	    		}while(validar==false);
+				return cadenaCasilla;
+			}
 	    		
 
 
@@ -224,7 +224,7 @@ public class Jugador {
 	    					validar=true;
 	    				}
 	    			}
-	    		}while(validar==false);*/
+	    		}while(validar==false);
 	    		////////////////////////////////////////////
 				/*
 				falta realizar la busqueda en el diccionario
@@ -234,7 +234,7 @@ public class Jugador {
 				//puntuacion
 				//if dicioncario //
 					//quitamos las fichas del jugador
-					for (int i=0;i<15;i++){// recorremos el vector temporal y mueve todas las fichas al tablero borrandolas del jugador
+	/*				for (int i=0;i<15;i++){// recorremos el vector temporal y mueve todas las fichas al tablero borrandolas del jugador
 						if(cadenaCasilla[i].isJugador()){
 							tablero[cadenaCasilla[i].getCasilla().getPosicionX()][cadenaCasilla[i].getCasilla().getPosicionY()]=cadenaCasilla[i].getCasilla();
 							lasFichas[cadenaCasilla[i].getPosicion()]=null;
@@ -252,6 +252,7 @@ public class Jugador {
 		//pedimos nuevas fichas
 		setLasFichas(bolsa);
 	}
+	*/
 	
 	/**
 	 * @return devuelve el nombre del jugador
