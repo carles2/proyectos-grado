@@ -103,89 +103,129 @@ public class Jugador {
 		int posx,posy,posicion;
 		CadenaCasilla[] cadenaCasilla = new CadenaCasilla[15];
 		BufferedReader Input = new BufferedReader(new InputStreamReader(System.in));
-	    char caracter=0;
+	    char caracter;
 	    String s=null;
 	    int contador=0;
-		do{
-			salida=false;
-			System.out.print("¿Quieres jugar o pasar turno?: (J/T) ");
-			do{
-				try {
-					s = Input.readLine();
-			    	s=s.toUpperCase();
-			    	caracter=s.charAt(0);
-			    	if ((caracter!='J')&&(caracter!='T'))
-				   		 System.out.println("Prueba a escribir la opcion correcta");
-				   	else salida=true;
-				} catch (IOException e) {
-					e.printStackTrace();
-				} 
-			}while(salida==false);
-			//caracter tiene la opcion del juego
-			//se inicializa de nuevo salida para el nuevo control.
-			salida=false;
+	    do{
+	    	salida=false;
+	    	System.out.print("¿Quieres jugar, pasar turno?: (J/T) ");
+	    	caracter=leerCaracter("JugaroPasar");
+	    	//caracter tiene la opcion del juego
+	    	//se inicializa de nuevo salida para el nuevo control.
+	    	salida=false;
 
-			if (caracter=='J'){// juego
-				boolean validar=false;
-				do{
-					System.out.print("Selecciona tablero, mis fichas o validar: (T/M/V) ");
-					do{
-						try {
-							s = Input.readLine();
-					    	s=s.toUpperCase();
-					    	caracter=s.charAt(0);
-					    	if ((caracter!='M')&&(caracter!='T')&&(caracter!='V'))
-						   		 System.out.println("Prueba a escribir la opcion correcta");
-						   	else salida=true;
-						} catch (IOException e) {
-							e.printStackTrace();
-						} 
-					}while(salida==false);
-					// iniciamos salida a false de nuevo para el proximo contro
-					salida=false;
-					//en caracter tenemos el modo de juego, ahora pedimos las coordenada
-					if (caracter=='J'){
-						// pedimos la posicion de la ficha con la que jugamos
-						System.out.print("Introduce la posicion de la ficha a usar: (0/6) ");
-						posicion=leerEntero(6);
-						//pedimos la coordenada a poner					
-						do{
+	    	if (caracter=='J'){// juego
+	    		boolean validar=false;
+	    		do{
+	    			//Aquí empieza la modificación
+	    			System.out.print("¿Seguir añadiendo fichas o validar?: (M/V)");
+	    			caracter=leerCaracter("OpcionTurno");
+	    			//en caracter tenemos el modo de juego, ahora pedimos las coordenada
+	    			if (caracter=='M'){
+	    				//Solicitamos el lugar donde se van a añadir la ficha
+	    				System.out.print("Introduce la coordenada X a insertar: (0/14)");
+	    				posx=leerEntero(14);
+	    				System.out.print("Introduce la coordenada Y a insertar: (0/14)");
+	    				posy=leerEntero(14);
+	    				//pedimos la posicion de la ficha con la que jugamos
+	    				System.out.print("Introduce la posicion de la ficha a usar: (0/6) ");
+	    				posicion=leerEntero(6);				
+	    				if (tablero[posx][posy].isVacio()){
+	    					cadenaCasilla[contador].setCasilla(lasFichas[posicion]);
+	    					cadenaCasilla[contador].setJugador(true);
+	    					cadenaCasilla[contador].setPosicion(posicion);
+	    				}
+	    				else
+	    				{
+	    					cadenaCasilla[contador].setCasilla(tablero[posx][posy]);
+	    					cadenaCasilla[contador].setJugador(false);
+	    				}
+	    				contador++;
+	    			}
+	    			else //caracter='V'
+	    			{
+	    				validar=true;
+	    			}
+	    		}while(validar==false);
+	    		
 
-							System.out.print("Introduce la coordenada X a insertar: (0/14)");
-							posx=leerEntero(14);
-							System.out.print("Introduce la coordenada Y a insertar: (0/14)");
-							posy=leerEntero(14);
-						
-							if (tablero[posx][posy].isVacio()){
-								cadenaCasilla[contador].setCasilla(lasFichas[posicion]);
-								cadenaCasilla[contador].setJugador(true);
-								cadenaCasilla[contador].setPosicion(posicion);
-								contador++;
-								salida=true;
-							}
-							else System.out.println("Las coordenada introducida ya esta en uso, intentalo de nuevo");
-						}while(salida==false);
-					}
-					if (caracter=='T'){
-						do{
-							System.out.print("Introduce la coordenada X: (0/14)");
-							posx=leerEntero(14);
-							System.out.print("Introduce la coordenada Y: (0/14)");
-							posy=leerEntero(14);
-						
-							if (!tablero[posx][posy].isVacio()){
-								cadenaCasilla[contador].setCasilla(tablero[posx][posy]);
-								cadenaCasilla[contador].setJugador(false);
-								contador++;
-								salida=true;
-							}
-							else System.out.println("Las coordenada introducidas no son de una ficha, intentalo de nuevo");
-						}while(salida==false);
-					}
-					if (caracter=='V')
-						validar=true;
-				}while(validar==false);
-////////////////////////////////////////////
+
+
+
+
+
+
+
+	    			
+	    			
+	    			
+	    			
+	    			
+	    			
+	    			
+	    			
+	    			
+	    			
+	    			
+	    			
+	    			
+	    			
+	    			
+	    			
+	    			
+	    			
+	    			//HACIÉNDOLO AL REVÉS PODEMOS CONTROLAR AUTOMATICAMENTE DONDE PONER FICHAS
+	    			/*System.out.print("Selecciona tablero, mis fichas o validar: (T/M/V) ");
+	    			leerCaracter("OpcionTurno");
+	    			// iniciamos salida a false de nuevo para el proximo contro
+	    			salida=false;
+	    			//en caracter tenemos el modo de juego, ahora pedimos las coordenada
+	    			if (caracter=='T'){
+	    				// pedimos la posicion de la ficha con la que jugamos
+	    				System.out.print("Introduce la posicion de la ficha a usar: (0/6) ");
+	    				posicion=leerEntero(6);
+	    				//pedimos la coordenada a poner					
+	    				do{
+
+	    					System.out.print("Introduce la coordenada X a insertar: (0/14)");
+	    					posx=leerEntero(14);
+	    					System.out.print("Introduce la coordenada Y a insertar: (0/14)");
+	    					posy=leerEntero(14);
+
+	    					if (tablero[posx][posy].isVacio()){
+	    						cadenaCasilla[contador].setCasilla(lasFichas[posicion]);
+	    						cadenaCasilla[contador].setJugador(true);
+	    						cadenaCasilla[contador].setPosicion(posicion);
+	    						contador++;
+	    						salida=true;
+	    					}
+	    					else System.out.println("Las coordenada introducida ya esta en uso, intentalo de nuevo");
+	    				}while(salida==false);
+	    			}
+	    			else{
+	    				if (caracter){
+	    					do{
+	    						System.out.print("Introduce la coordenada X: (0/14)");
+	    						posx=leerEntero(14);
+	    						System.out.print("Introduce la coordenada Y: (0/14)");
+	    						posy=leerEntero(14);
+
+	    						if (!tablero[posx][posy].isVacio()){
+	    							cadenaCasilla[contador].setCasilla(tablero[posx][posy]);
+	    							cadenaCasilla[contador].setJugador(false);
+	    							contador++;
+	    							salida=true;
+	    						}
+	    						else System.out.println("Las coordenada introducidas no son de una ficha, intentalo de nuevo");
+	    					}while(salida==false);
+	    				}
+	    				else //caracter='V'
+	    				{
+	    					validar=true;
+	    				}
+	    			}
+	    		}while(validar==false);*/
+	    		////////////////////////////////////////////
 				/*
 				falta realizar la busqueda en el diccionario
 				falta realizar la puntuacion
@@ -267,24 +307,39 @@ public class Jugador {
  * Lee un carácter. Si se leen varios, se queda únicamente con el primero
  * @return Caracterleido
  */
-   public boolean leerCaracter(){
+   public char leerCaracter(String modo){
     BufferedReader Input = new BufferedReader(new InputStreamReader(System.in));
     char caracter=0;
     String s=null;
     boolean salida=false;
-    do{
+    do{    	
+    	
 		try {
 			s = Input.readLine();
 	    	s=s.toUpperCase();
 	    	caracter=s.charAt(0);
-	    	if ((caracter!='H')&&(caracter!='V'))
-	    		 System.out.println("Prueba a escribir la orientación de nuevo");
-	    	else salida=true;
+	    	switch (modo)
+	    	{
+	    	case "HoV": if ((caracter!='H')&&(caracter!='V'))
+	    				System.out.println("Prueba a escribir la orientación de nuevo");
+	    				else salida=true;
+	    				break;
+	    	case "OpcionTurno":
+	    				if ((caracter!='M')&&(caracter!='T')&&(caracter!='V'))
+	    				System.out.println("Prueba a escribir la opcion correcta");
+	    				else salida=true;
+	    				break;
+	    	case "JugaroPasar":
+	    				if ((caracter!='J')&&(caracter!='T'))
+	    				System.out.println("Prueba a escribir la opcion correcta");
+	    				else salida=true;
+	    			}
+	    	
 		} catch (IOException e) {
 			e.printStackTrace();
 		} 
-    }while (salida);
-    return (caracter=='H'?true:false);
+    }while (!salida);
+    return caracter;
 }
 
    
