@@ -58,7 +58,7 @@ public class Jugador {
 	/**
 	 *  realiza las acciones de las fichas.
 	 */
-	public CadenaCasilla[] realizaTurno(Casilla[][] tablero,Bolsa bolsa){
+	public CadenaCasilla[] realizaPalabra(Casilla[][] tablero,Bolsa bolsa){
 		// lo que esta sin el * es la lina que falta por hacer
 		/*
 		*hacer
@@ -105,6 +105,7 @@ public class Jugador {
 		char caracter;
 	    String s=null;
 	    int contador=0;
+	    boolean[] fichasnoUsadas= new boolean[7];
 	    /*do{
 	    	salida=false;
 	    	System.out.print("¿Quieres jugar, pasar turno?: (J/T) ");
@@ -114,6 +115,7 @@ public class Jugador {
 
 	    	if (caracter=='J'){// juego*/
 	    		boolean validar=false;
+	    		boolean numCorrecto = true;
 	    		do{
 	    			//Aquí empieza la modificación
 	    			System.out.print("¿Seguir añadiendo fichas o validar?: (M/V)");
@@ -125,10 +127,19 @@ public class Jugador {
 	    				posx=leerEntero(14);
 	    				System.out.print("Introduce la coordenada Y a insertar: (0/14)");
 	    				posy=leerEntero(14);
-	    				//pedimos la posicion de la ficha con la que jugamos
-	    				System.out.print("Introduce la posicion de la ficha a usar: (0/6) ");
-	    				posicion=leerEntero(6);				
 	    				if (tablero[posx][posy].isVacio()){
+	    					//pedimos la posicion de la ficha con la que jugamos
+	    					System.out.print("Introduce la posicion de la ficha a usar: (0/6) ");
+	    					do{
+	    						posicion=leerEntero(6);
+	    						if (fichasnoUsadas[posicion]==false)
+	    							//la ficha está siendo usada
+	    						{
+	    							System.out.println("Ya has usado la ficha especificada, no puedes repetirla");
+	    							numCorrecto=false;
+	    						}
+	    					}while(numCorrecto==false);
+	    					fichasnoUsadas[posicion]=false; //Marcamos la ficha como usada, no se puede repetir
 	    					cadenaCasilla[contador].setCasilla(lasFichas[posicion]);
 	    					cadenaCasilla[contador].setJugador(true);
 	    					cadenaCasilla[contador].setPosicion(posicion);
@@ -145,9 +156,9 @@ public class Jugador {
 	    				validar=true;
 	    			}
 	    		}while(validar==false);
-				return cadenaCasilla;
-			}
-	    		
+	    		return cadenaCasilla;
+	}
+
 
 
 
