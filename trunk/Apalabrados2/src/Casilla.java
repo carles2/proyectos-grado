@@ -13,7 +13,7 @@ public class Casilla {
 		setPrimeraVez(true);
 		setEspecial(false);
 		setTCasilla(Datos.TipoCasilla.NORMAL);
-		ficha = new Ficha();
+		//ficha = new Ficha();
 	}
 	
 	

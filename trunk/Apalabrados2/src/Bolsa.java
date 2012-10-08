@@ -36,7 +36,7 @@ public class Bolsa {
 
 		int abecedario[][]={{65,1,12}, // Letra A, Valor de A, numero de A
 			{66,3,2}, //Letra B
-			{67,3,2}, //Letra C
+			{67,3,4}, //Letra C
 			{68,2,5}, //Letra D
 			{69,1,12}, //Letra E
 			{70,4,1}, //Letra F
