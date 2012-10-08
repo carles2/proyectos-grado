@@ -7,7 +7,8 @@ public class Jugador {
 	private Casilla[] lasFichas= new Casilla[7];
 	private String nombreJugador;
 	private int puntuacion;
-	
+	private int numeroJuegos;
+	private boolean pasoTurnos;
 	
 	Jugador(Bolsa bolsa){
 		this ("Jugador",bolsa);
@@ -20,7 +21,10 @@ public class Jugador {
 	 */
 	Jugador(String Nombre,Bolsa bolsa){
 		nombreJugador=Nombre;
+		numeroJuegos=0;
+		pasoTurnos=false;
 		puntuacion =0; //Cada jugador comienza teniendo 0 puntos
+		for (int i=0;i<lasFichas.length;i++) lasFichas[i]=new Casilla();
 		setLasFichas(bolsa);
 	}
 
@@ -44,10 +48,10 @@ public class Jugador {
 		for (int i=0;(i<7)&&(noHayFichas==false);i++){
 			// ahora recore el vector de ficha y aï¿½ade las que neceiste
 			// para que esto funcione una vez sacadas del jugador han de ponerse a null
-			if (lasFichas[i]==null)
-			{
+			if (lasFichas[i].getFicha()==null)
+			{	
 				lasFichas[i].setFicha(bolsa.getFicha());
-				if (lasFichas[i]==null) noHayFichas=true;
+				if (lasFichas[i].getFicha()==null) noHayFichas=true;
 			}	
 		}
 	}
@@ -111,6 +115,8 @@ public class Jugador {
             //caracter tiene la opcion del juego
 
 			if (caracter=='J'){// juego
+				numeroJuegos=0;
+				pasoTurnos=false;
 				boolean validar=false;
 				do{
 					System.out.print("Selecciona tablero, mis fichas o validar: (T/M/V) ");
@@ -209,9 +215,7 @@ public class Jugador {
                         	 if(cadenaCasilla[i].isJugador()){
                         		cadenaCasilla[i].getCasilla().setVacio(false);
                         		tablero.setCasilla(cadenaCasilla[i].getCasilla());
-     							//tablero[cadenaCasilla[i].getCasilla().getPosicionX()][cadenaCasilla[i].getCasilla().getPosicionY()]=cadenaCasilla[i].getCasilla();
-     							lasFichas[cadenaCasilla[i].getPosicion()]=null;
-     						}
+     							lasFichas[cadenaCasilla[i].getPosicion()]= new Casilla();    						}
                          }
                  }
         		sumaCuarenta=0;
@@ -220,13 +224,24 @@ public class Jugador {
 				for(int i=0;i<cadenaCasilla.length;i++)
 					cadenaCasilla[i]=null;
 			}
-			else // pasamos turno
+			else {// pasamos turno
+				if (pasoTurnos==true)
+					numeroJuegos++;
+				else pasoTurnos=true;
 				turno=true;
+		}
 		}while (turno==false);
 		//pedimos nuevas fichas
 		setLasFichas(bolsa);
 	}
 	
+	/**
+	 * 
+	 * @return delvuelve el numero de turnos pasados consecutivamente.
+	 */
+	public int getNumeroTurnosPasados(){
+		return numeroJuegos;
+	}
 	/**
 	 * @return devuelve el nombre del jugador
 	 */
