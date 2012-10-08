@@ -1,8 +1,7 @@
   
 public class Casilla {
-	private char letra;
-	private int valor;
 	private boolean vacio;
+	private Ficha ficha;
 	private boolean especial;
 	private boolean primeraVez; // parece que no se usa
 	private int posicionX;
@@ -14,6 +13,7 @@ public class Casilla {
 		setPrimeraVez(true);
 		setEspecial(false);
 		setTCasilla(Datos.TipoCasilla.NORMAL);
+		ficha = new Ficha();
 	}
 	
 	
@@ -48,32 +48,6 @@ public class Casilla {
 		this.posicionY = posicionY;
 	}
 
-
-	/**
-	 * @return el caracter contenido en "letra"
-	 */
-	public char getLetra() {
-		return letra;
-	}
-	
-	/**
-	 * @param Establece el contendido de "letra" con letra pasada por parametro
-	 */
-	public void setLetra(char letra) {
-		this.letra = letra;
-	}
-	/**
-	 * @return el valor numerico de la casilla
-	 */
-	public int getValor() {
-		return valor;
-	}
-	/**
-	 * @param Establece el valor numerico de la casilla
-	 */
-	public void setValor(int valor) {
-		this.valor = valor;
-	}
 	/**
 	 * @return Devuelve true si la casilla esta vacia.
 	 */
@@ -125,6 +99,22 @@ public class Casilla {
 	 */
 	public void setTCasilla(Datos.TipoCasilla tCasilla) {
 		this.tCasilla = tCasilla;
+	}
+
+
+	/**
+	 * @return el ficha
+	 */
+	public Ficha getFicha() {
+		return ficha;
+	}
+
+
+	/**
+	 * @param ficha el ficha a establecer
+	 */
+	public void setFicha(Ficha ficha) {
+		this.ficha = ficha;
 	}
 	
 

@@ -1,21 +1,7 @@
-modo del juego. tienen que terner sentido cuando las pones en el tablero. o se pierden y no ganas las puntuacion
+se ha creado la clase ficha solo con la letra y el valor
 
-puntuacion del comodin. toma la puntuaicon de la ficha a la que sustitulle o toma 0
+se ha reorganizado todo para controlar ficha, salvo error. funcionaria
 
-finalizacion del juego, fin si no hay fichas en la bolsa o hasta que ambos jugadores dicen que finaliza. o si pasan los dos
+se ha cambiado la forma de crear las fichas en bolsa.
 
----------------
-ya he añadido a juego la funcion que te mande por el correo electronico
-
-falta la parte del diccionario y la puntuacion.
-
-he borrado todo lo demas se ha simplificado mucho. se han borrado las clases palabras y palabras encontrada
-se ha añadido la clase cadenacasillas.
-
-se ha añadido a casilla los x y 
-
-hay que intentar reutilizar tu funcion de lectura de caracter para que valga para la distintas opciones
-
-------------------
-añadie aqui tus comentarios.
 

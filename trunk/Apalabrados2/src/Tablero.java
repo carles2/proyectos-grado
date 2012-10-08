@@ -52,8 +52,7 @@ public class Tablero {
 	
 		}
 		elTablero[7][7].setVacio(false);
-		elTablero[7][7].setLetra('*');
-		elTablero[7][7].setValor(0);
+		elTablero[7][7].setFicha(new Ficha('*',0));
 		elTablero[7][7].setPosicionX(7);
 		elTablero[7][7].setPosicionY(7);
 	}
@@ -97,7 +96,7 @@ public class Tablero {
 				System.out.print("|");
 				if (elTablero[j][i].isEspecial()) System.out.print(elTablero[j][i].getTCasilla()+" ");
 				else if (elTablero[j][i].isVacio()) System.out.print("   ");
-					 else System.out.print(" " + elTablero[j][i].getLetra()+" ");
+					 else System.out.print(" " + elTablero[j][i].getFicha().getLetra()+" ");
 
 			}
 			System.out.println("|");
