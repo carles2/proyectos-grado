@@ -1,6 +1,6 @@
 public class CadenaCasilla {
 	private Casilla casilla;
-	private boolean jugador;
+	private boolean jugador; // se pone a true cuando es una ficha del jugador no del tablero
 	private int posicion;
 	
 	CadenaCasilla(){

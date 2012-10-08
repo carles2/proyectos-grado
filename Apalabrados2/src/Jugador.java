@@ -46,7 +46,7 @@ public class Jugador {
 			// para que esto funcione una vez sacadas del jugador han de ponerse a null
 			if (lasFichas[i]==null)
 			{
-				lasFichas[i]=bolsa.getFicha();
+				lasFichas[i].setFicha(bolsa.getFicha());
 				if (lasFichas[i]==null) noHayFichas=true;
 			}	
 		}
@@ -104,6 +104,7 @@ public class Jugador {
 	    boolean[] fichasNoUsadas= new boolean[7];
 	    for (int i=0;i<cadenaCasilla.length;i++) cadenaCasilla[i]=new CadenaCasilla();
 	    for (int i = 0;i<7;i++) fichasNoUsadas[i]=true;
+	    int sumaCuarenta=0;
 		do{
 			System.out.print("¿Quieres jugar o pasar turno?: (J/T) ");
             caracter=leerCaracter("JugaroPasar");
@@ -155,6 +156,7 @@ public class Jugador {
 						cadenaCasilla[contador].setJugador(true);
 						cadenaCasilla[contador].setPosicion(posicion);
 						contador++;
+						sumaCuarenta++;
 					}
 					if (caracter=='T'){
 				
@@ -176,7 +178,7 @@ public class Jugador {
 				int multiplicador=1;
 				int multiplicadorPalabra=1;
 				for (int i=0;(cadenaCasilla[i].getCasilla()!=null)&&(i<15);i++){
-					palabraEvaluar=palabraEvaluar.concat(String.valueOf(cadenaCasilla[i].getCasilla().getLetra()));
+					palabraEvaluar=palabraEvaluar.concat(String.valueOf(cadenaCasilla[i].getCasilla().getFicha().getLetra()));
 					
 					//puntuacion
 					if ((cadenaCasilla[i].getCasilla().isEspecial())&&(cadenaCasilla[i].getCasilla().isVacio())){
@@ -192,11 +194,14 @@ public class Jugador {
 							multiplicadorPalabra=multiplicadorPalabra*3;
 					}
 					
-                    puntuacionProv=puntuacionProv+(cadenaCasilla[i].getCasilla().getValor()*multiplicador);
+                    puntuacionProv=puntuacionProv+(cadenaCasilla[i].getCasilla().getFicha().getValor()*multiplicador);
                     multiplicador=1;
 				}
 				//buscamo en el diccionario
+
                 if (diccionario.EsValida(palabraEvaluar)){//La palabra es válida
+            			if (sumaCuarenta==7)
+            				puntuacionProv=puntuacionProv+40;
                          setPuntuacion(puntuacionProv*multiplicadorPalabra);
                          multiplicadorPalabra=1;
                          for (int i=0;(cadenaCasilla[i].getCasilla()!=null)&&(i<15);i++){
@@ -209,6 +214,7 @@ public class Jugador {
      						}
                          }
                  }
+        		sumaCuarenta=0;
 				contador=0;
 				//borrado del vector hay que hacerlo tanto si esta en el diccionario como si no para el siguiente paso
 				for(int i=0;i<cadenaCasilla.length;i++)
@@ -257,12 +263,12 @@ public class Jugador {
 		System.out.println("Nombre del jugador: " +getNombreJugador());
 		System.out.println("-----------------------------");
 		for (int i=0; i<7; i++){
-			System.out.print("| "+lasFichas[i].getLetra()+" ");
+			System.out.print("| "+lasFichas[i].getFicha().getLetra()+" ");
 		}
 		System.out.println("|");
 		System.out.println("-----------------------------");
 		for (int i=0; i<7; i++){
-			System.out.print("| "+lasFichas[i].getValor()+" ");
+			System.out.print("| "+lasFichas[i].getFicha().getValor()+" ");
 		}
 		System.out.println("|");
 		System.out.println("-----------------------------");
