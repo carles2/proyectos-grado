@@ -4,4 +4,21 @@ se ha reorganizado todo para controlar ficha, salvo error. funcionaria
 
 se ha cambiado la forma de crear las fichas en bolsa.
 
+-------------------------------------------------
+r24
+añadido en apalabrado el limite de tres turnos de juego
+añadido en juego el cambio de turno para contabilizarlo
+añadiod en juego el control del comodin, añadido a la funcion pedir caracter el soporte al comodin.
+ya no se usa la clase cadenacasilla, se hace todo dentro de juego. 
+se simplica el acceso al objerto ficha dentro de la clase jugador
+las fichas del jugador ya son fichas no casillas. solo quedan como casilla el tablero y el "vector temporal"
+creo que solucionado todos los null pointer, en la simulacion de juego no me ha petado.
+se ha añadido al final de apalabrado un control para ver quien es el ganador por los puntos
+
+------------
+cosas por hacer:
+control de errores para las coordenadas,
+control de errores de que las fichas este en la misma fila o columna cuando se piden del tablero.
+que vaya pintando mientras se van poniendo las fichas.
+simplificacion de codigo
 
