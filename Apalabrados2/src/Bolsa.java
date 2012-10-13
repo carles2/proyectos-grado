@@ -109,10 +109,10 @@ public class Bolsa {
 				tope--;
 				
 			}
-			System.out.println("Llega aqui bien"+i+" "+aux+" "+tuplaAux[0]+" "+tope);
 			
 			
 		}
+		MostrarBolsa();
 	}
 
 	/**
@@ -160,7 +160,35 @@ public class Bolsa {
 		else
 			return false;
 	}
-	
+
+	/**
+	 * Muestra la bolsa de fichas
+	 */
+	private void MostrarBolsa()
+	{
+		int cantidad=-1;
+		char caracter=' ';
+		for(int i=0;i<miBolsa.length;i++)
+		{
+			if (caracter==miBolsa[i].getLetra()) //Si el caracter está repetido
+			{
+				cantidad++;
+			}
+			else //Si no se ha repetido el caracter
+			{
+				if (cantidad>=0)
+				System.out.print(cantidad);
+				System.out.println();
+				caracter=miBolsa[i].getLetra();
+				System.out.print(caracter+" ");
+				System.out.print(miBolsa[i].getValor()+" ");
+				cantidad=1;
+			}
+		}
+		System.out.print(cantidad);
+		System.out.println();
+	}
+
 	/**
 	 * Halla el valor y la cantidad de fichas de una determinada letra
 	 * @param numLetra Número ASCII de la letra
