@@ -112,6 +112,11 @@ public class Bolsa {
 			
 			
 		}
+		//ESTO SON PRUEBAS - NO OLVIDAR BORRAR
+		MostrarBolsa();
+		System.out.println(miBolsa.length);
+		ModificarBolsa('A',0);
+		System.out.println(miBolsa.length);
 		MostrarBolsa();
 	}
 
@@ -131,7 +136,7 @@ public class Bolsa {
 		else {
 			int numero;
 			do {
-				numero = r.nextInt(97);
+				numero = r.nextInt(miBolsa.length);
 			} while (usado[numero]);
 			// al sacar una ficha la marcamos que ya no esta vacia con lo
 			// que nos sirve para saber si ha sido sacada o no
@@ -187,6 +192,51 @@ public class Bolsa {
 		}
 		System.out.print(cantidad);
 		System.out.println();
+	}
+
+	/**
+	 * Modifica la cantidad de fichas en la bolsa dado el caracter
+	 * @param caracter Caracter del que modificar su cantidad
+	 * @param cantidadNueva Nueva cantidad de fichas con ese caracter
+	 */
+	private void ModificarBolsa(char caracter,int cantidadNueva)
+	{
+		int cantidadActual=0;
+		int diferencia,total;
+		for(int i=0;i<miBolsa.length;i++)
+		{
+			if (caracter==miBolsa[i].getLetra()) //Si el caracter está repetido
+			{
+				cantidadActual++;
+			}
+		}
+		diferencia=cantidadNueva-cantidadActual;
+		total=97+diferencia;
+		
+		int iteAux=0;
+		int ite=0;
+		
+		Ficha[] miBolsaAux = new Ficha[total];
+		while (ite<miBolsa.length)
+		{
+			if ((cantidadNueva!=0)||(miBolsa[ite].getLetra()!=caracter))
+			{
+				miBolsaAux[iteAux] = miBolsa[ite];
+				cantidadNueva--;
+				iteAux++;
+			}
+			ite++;
+		}
+		
+		setMiBolsa(miBolsaAux);
+	}
+	
+	public Ficha[] getMiBolsa() {
+		return miBolsa;
+	}
+
+	public void setMiBolsa(Ficha[] miBolsa) {
+		this.miBolsa = miBolsa;
 	}
 
 	/**
