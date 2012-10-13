@@ -115,8 +115,10 @@ public class Bolsa {
 		//ESTO SON PRUEBAS - NO OLVIDAR BORRAR
 		MostrarBolsa();
 		System.out.println(miBolsa.length);
-		ModificarBolsa('A',0);
+		ModificarCantidadCaracterenBolsa('A',0);
 		System.out.println(miBolsa.length);
+		MostrarBolsa();
+		ModificarValorCaracterenBolsa('B',344);
 		MostrarBolsa();
 	}
 
@@ -199,7 +201,7 @@ public class Bolsa {
 	 * @param caracter Caracter del que modificar su cantidad
 	 * @param cantidadNueva Nueva cantidad de fichas con ese caracter
 	 */
-	private void ModificarBolsa(char caracter,int cantidadNueva)
+	private void ModificarCantidadCaracterenBolsa(char caracter,int cantidadNueva)
 	{
 		int cantidadActual=0;
 		int diferencia,total;
@@ -231,12 +233,50 @@ public class Bolsa {
 		setMiBolsa(miBolsaAux);
 	}
 	
+	/**
+	 * Método qe permite modificar el valor de una ficha dado su caracter
+	 * @param caracter Caracter de la ficha
+	 * @param valorNuevo Nuevo valor de la ficha
+	 */
+	private void ModificarValorCaracterenBolsa(char caracter,int valorNuevo)
+	{
+		int ite=0;
+		while (ite<miBolsa.length)
+		{
+			if (miBolsa[ite].getLetra()==caracter)
+			{
+				miBolsa[ite].setValor(valorNuevo);
+			}
+			ite++;
+		}
+	}
+	
+	/**
+	 * Getter MiBolsa
+	 * @return bolsa de fichas
+	 */
 	public Ficha[] getMiBolsa() {
 		return miBolsa;
 	}
 
+	/**
+	 * Setter MiBolsa
+	 * @param miBolsa Bolsa a establecer
+	 */
 	public void setMiBolsa(Ficha[] miBolsa) {
 		this.miBolsa = miBolsa;
+	}
+
+	public boolean[] getUsado() {
+		return usado;
+	}
+
+	public void setUsado(boolean[] usado) {
+		this.usado = usado;
+	}
+
+	public void setNumeroFichas(int numeroFichas) {
+		this.numeroFichas = numeroFichas;
 	}
 
 	/**
