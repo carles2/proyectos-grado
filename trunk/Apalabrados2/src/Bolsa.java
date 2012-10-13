@@ -22,30 +22,26 @@ public class Bolsa {
 		 *  10 puntos: Z*1 no esta la K ni la W, pero se podrian a�adir a la de 10 puntos
 		 */
 
+		int[] abecedario[]=new int[26][]; //Matriz Letra|Tupla(Valor|Cantidad)
+		int iterador=0;
+		for (int i=65;i<=90;i++)
+		{
+			if ((i==75)||(i==87))
+			{
+				i++;
+			}
+			abecedario[iterador]=HallarTuplaVC(i);
+			iterador++;
+		}
+		//Añadimos la Ñ y el comodín manualmente
+		abecedario[iterador]=HallarTuplaVC(165);
+		iterador++;
+		abecedario[iterador]=HallarTuplaVC(42);
+		
 		/*
-		 * int
-		 * abecedario[][]={{65,1},{65,1},{65,1},{65,1},{65,1},{65,1},{65,1},{
-		 * 65,1},{65,1},{65,1},
-		 * {65,1},{65,1},{66,3},{66,3},{67,3},{67,3},{67,3},
-		 * {67,3},{68,2},{68,2},
-		 * {68,2},{68,2},{68,2},{69,1},{69,1},{69,1},{69,1}
-		 * ,{69,1},{69,1},{69,1},
-		 * {69,1},{69,1},{69,1},{69,1},{69,1},{70,4},{71,2
-		 * },{71,2},{72,4},{72,4},
-		 * {73,1},{73,1},{73,1},{73,1},{73,1},{73,1},{74,
-		 * 8},{76,1},{76,1},{76,1},
-		 * {76,1},{77,3},{77,3},{78,1},{78,1},{78,1},{78
-		 * ,1},{78,1},{165,8},{79,1},
-		 * {79,1},{79,1},{79,1},{79,1},{79,1},{79,1},{
-		 * 79,1},{79,1},{80,3},{80,3},
-		 * {81,5},{82,1},{82,1},{82,1},{82,1},{82,1},
-		 * {83,1},{83,1},{83,1},{83,1},
-		 * {83,1},{83,1},{84,1},{84,1},{84,1},{84,1}
-		 * ,{85,1},{85,1},{85,1},{85,1},
-		 * {85,1},{86,4},{88,8},{89,4},{90,10},{42,0},{42,0} };
-		 */
-
-		int abecedario[][] = { { 65, 1, 12 }, // Letra A, Valor de A, numero de A
+		int abecedario[][] = { 
+				
+				{ 65, 1, 12 }, // Letra A, Valor de A, numero de A
 				{ 66, 3, 2 }, // Letra B
 				{ 67, 3, 4 }, // Letra C
 				{ 68, 2, 5 }, // Letra D
@@ -58,7 +54,7 @@ public class Bolsa {
 				{ 76, 1, 4 }, // Letra L
 				{ 77, 3, 2 }, // Letra M
 				{ 78, 1, 5 }, // Letra N
-				{ 165, 8, 1 }, // Letra �
+				{ 165, 8, 1 }, // Letra �
 				{ 79, 1, 9 }, // Letra O
 				{ 80, 3, 2 }, // Letra P
 				{ 81, 5, 1 }, // Letra Q
@@ -73,18 +69,49 @@ public class Bolsa {
 				{ 42, 0, 2 } // Comodin *
 		};
 
+*/
 		usado = new boolean[97];
 		numeroFichas = 97;
 		miBolsa = new Ficha[97];
-		r = new Random();
 		int aux = 0;
+		int[] tuplaAux=new int[2];
+		int tope;
+		int iteAux=0;
 		for (int i = 0; i < 97; i++)
 			usado[i] = false; // control si se usa o no una variable.
 		for (int i = 0; i < abecedario.length; i++) {
-			for (int j = 0; j < abecedario[i][2]; j++) {
-				miBolsa[aux] = new Ficha((char) abecedario[i][0], abecedario[i][1]);
+			aux=i+65;
+			if (aux>=75)
+			{
 				aux++;
+				if (aux>=87)
+				{
+					aux++;
+					if (aux==91)
+					{
+						aux=165;
+					}
+					if (aux==92)
+					{
+						aux=42;
+					}
+				}
 			}
+			
+			
+			tuplaAux=abecedario[i];
+			
+			tope=tuplaAux[1];
+			while (tope!=0)
+			{
+				miBolsa[iteAux] = new Ficha((char) aux,tuplaAux[0]);
+				iteAux++;
+				tope--;
+				
+			}
+			System.out.println("Llega aqui bien"+i+" "+aux+" "+tuplaAux[0]+" "+tope);
+			
+			
 		}
 	}
 
@@ -98,6 +125,7 @@ public class Bolsa {
 	public Ficha getFicha() {
 		// si no hay fichas no entramos ya que se quedaria el do while en ciclo
 		// infinito.
+		r = new Random();
 		if (numeroFichas == 0)
 			return null;
 		else {
@@ -131,6 +159,131 @@ public class Bolsa {
 			return true;
 		else
 			return false;
+	}
+	
+	/**
+	 * Halla el valor y la cantidad de fichas de una determinada letra
+	 * @param numLetra Número ASCII de la letra
+	 * @return tupla de Valor y Cantidad
+	 */
+	private int[] HallarTuplaVC(int numLetra)
+	{
+		int[] tupla=new int[2];
+		try{
+			switch(numLetra)
+			{
+			case 65: 
+				tupla[0]=1; //Valor
+				tupla[1]=12; //Cantidad
+				break;
+			case 66: 
+				tupla[0]=3; 
+				tupla[1]=2; 
+				break;
+			case 67: 
+				tupla[0]=3; 
+				tupla[1]=4;
+				break;
+			case 68: 
+				tupla[0]=2; 
+				tupla[1]=5; 
+				break;
+			case 69: 
+				tupla[0]=1; 
+				tupla[1]=12;
+				break;
+			case 70: 
+				tupla[0]=4; 
+				tupla[1]=1; 
+				break;
+			case 71: 
+				tupla[0]=2; 
+				tupla[1]=2;
+				break;
+			case 72: 
+				tupla[0]=4; 
+				tupla[1]=2; 
+				break;
+			case 73: 
+				tupla[0]=1; 
+				tupla[1]=6;
+				break;
+			case 74: 
+				tupla[0]=8; 
+				tupla[1]=1; 
+				break;
+			case 76: 
+				tupla[0]=1; 
+				tupla[1]=4;
+				break;
+			case 77: 
+				tupla[0]=3; 
+				tupla[1]=2; 
+				break;
+			case 78: 
+				tupla[0]=1; 
+				tupla[1]=5;
+				break;
+			case 79: 
+				tupla[0]=1; 
+				tupla[1]=9;
+				break;
+			case 80: 
+				tupla[0]=3; 
+				tupla[1]=2; 
+				break;
+			case 81: 
+				tupla[0]=5; 
+				tupla[1]=1;
+				break;
+			case 82: 
+				tupla[0]=1; 
+				tupla[1]=5; 
+				break;
+			case 83: 
+				tupla[0]=1; 
+				tupla[1]=6;
+				break;
+			case 84: 
+				tupla[0]=1; 
+				tupla[1]=4; 
+				break;
+			case 85: 
+				tupla[0]=1; 
+				tupla[1]=5;
+				break;
+			case 86: 
+				tupla[0]=4; 
+				tupla[1]=1; 
+				break;
+			case 88: 
+				tupla[0]=4; 
+				tupla[1]=1;
+				break;
+			case 89: 
+				tupla[0]=4; 
+				tupla[1]=1; 
+				break;
+			case 90: 
+				tupla[0]=10; 
+				tupla[1]=1;
+				break;
+			case 165: 
+				tupla[0]=8; 
+				tupla[1]=1; 
+				break;
+			case 42: 
+				tupla[0]=0; 
+				tupla[1]=2;
+				break;
+			default:
+				throw new Exception();
+			}
+		}catch (Exception e) {
+				System.out.println("El carácter especificado no se encuentra disponible");
+			}
+		return tupla;
+		
 	}
 
 }
