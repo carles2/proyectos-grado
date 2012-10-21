@@ -10,15 +10,26 @@ añadido en apalabrado el limite de tres turnos de juego
 añadido en juego el cambio de turno para contabilizarlo
 añadiod en juego el control del comodin, añadido a la funcion pedir caracter el soporte al comodin.
 ya no se usa la clase cadenacasilla, se hace todo dentro de juego. 
-se simplica el acceso al objerto ficha dentro de la clase jugador
+se simplifica el acceso al objerto ficha dentro de la clase jugador
 las fichas del jugador ya son fichas no casillas. solo quedan como casilla el tablero y el "vector temporal"
 creo que solucionado todos los null pointer, en la simulacion de juego no me ha petado.
 se ha añadido al final de apalabrado un control para ver quien es el ganador por los puntos
+---------------------------------------------------
+r33
+del r28-r32 no hace nada es un fallo mio cuando he creado el proyecto de sistemas de la informcion
+que lo meti en este proyecto hasta que hice uno nuevo.
+
+modificado jugador, solucionado el control de coordenadas, ahora va pintantdo las casillas que se van usando
+se ha modificado en tablero la forma de copiar una casilla por seguridad porque en algunos casos dada nullpointer
+en bolsa se ha añadido la funcion toString (similar a mostrar bolsa para pruebas) se ha añadido
+comentado la segunda form de rellenar la bolsa
+se ha definido una nueva constante en datos que es el numero de lementos de la bolsa
 
 ------------
 cosas por hacer:
-control de errores para las coordenadas,
-control de errores de que las fichas este en la misma fila o columna cuando se piden del tablero.
-que vaya pintando mientras se van poniendo las fichas.
+que vaya pintando mientras se van poniendo las fichas en el tablero.
 simplificacion de codigo
+--------------
+valores raros en la creacion de las fichas en la b da 344 y faltan las A. son pruevas verdad??
+
 

@@ -8,7 +8,7 @@ public class Bolsa {
 	private boolean[] usado;
 
 	Bolsa() {
-
+		
 		/**
 		 * distribucion de letras segun el scrabbel original, a modificar segun
 		 * la distribucion de apalabrados
@@ -68,16 +68,29 @@ public class Bolsa {
 				{ 90, 10, 1 }, // Letra Z
 				{ 42, 0, 2 } // Comodin *
 		};
+            
+
 
 */
-		usado = new boolean[97];
-		numeroFichas = 97;
-		miBolsa = new Ficha[97];
+		usado = new boolean[Datos.NUMERO_FICHAS];
+		numeroFichas = Datos.NUMERO_FICHAS;
+		miBolsa = new Ficha[Datos.NUMERO_FICHAS];
+		
+        // segundo metodo de creacion de las fichas
+        /* 
+       for (int i = 0; i < abecedario.length; i++) {
+                  for (int j = 0; j < abecedario[i][2]; j++) {
+                          miBolsa[aux] = new Ficha((char) abecedario[i][0], abecedario[i][1]);
+                          aux++;
+                  }
+          }
+        
+        */
 		int aux = 0;
 		int[] tuplaAux=new int[2];
 		int tope;
 		int iteAux=0;
-		for (int i = 0; i < 97; i++)
+		for (int i = 0; i < Datos.NUMERO_FICHAS; i++)
 			usado[i] = false; // control si se usa o no una variable.
 		for (int i = 0; i < abecedario.length; i++) {
 			aux=i+65;
@@ -120,6 +133,7 @@ public class Bolsa {
 		MostrarBolsa();
 		ModificarValorCaracterenBolsa('B',344);
 		MostrarBolsa();
+		System.out.println(toString());
 	}
 
 	/**
@@ -162,10 +176,7 @@ public class Bolsa {
 	 */
 
 	public boolean getQuedanFichas() {
-		if (numeroFichas != 0)
-			return true;
-		else
-			return false;
+		return (numeroFichas!=0);
 	}
 
 	/**
@@ -195,6 +206,27 @@ public class Bolsa {
 		System.out.print(cantidad);
 		System.out.println();
 	}
+	
+	public String toString(){
+		String cadena;
+		String enlace="], \n";
+		cadena="Elementos totales en la bolsa: "+miBolsa.length;
+		cadena=cadena+"\nElementos restantes en la bolsa: "+getNumeroFichas()+"\nBolsa: [\n";
+		
+		for(int i =0; i<miBolsa.length;i++){
+			cadena=cadena+"[Ficha numero "+i+" [Letra= "+miBolsa[i].getLetra()+", Valor= "+miBolsa[i].getValor()
+					+"], usada= ";
+			if (usado[i])
+				cadena=cadena+"si";
+			else 
+				cadena=cadena+"no";
+			if (i==miBolsa.length-1)
+				enlace="]]";
+			cadena=cadena+enlace;
+		}
+		return cadena;
+	}
+		
 
 	/**
 	 * Modifica la cantidad de fichas en la bolsa dado el caracter
