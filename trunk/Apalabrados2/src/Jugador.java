@@ -11,6 +11,12 @@ public class Jugador {
 	private boolean[] jugador;
 	private int[] posicionLetra;
 	private Casilla[] cadenaCasilla;
+	private boolean[] fichasNoUsadas = new boolean[7];
+	// variables usada para el control de la filas horizontales y verticlaes
+	private int posxanterior;
+	 private int posyanterior;
+	 private int direccion;
+	//
 
 	Jugador(Bolsa bolsa) {
 		this("Jugador", bolsa);
@@ -32,10 +38,14 @@ public class Jugador {
 		cadenaCasilla = new Casilla[15];
 		for (int i = 0; i < cadenaCasilla.length; i++)
 			cadenaCasilla[i] = new Casilla();
+		for (int i =0 ;i<fichasNoUsadas.length;i++){
+			fichasNoUsadas[i]=true;
+		}
 
 		puntuacion = 0; // Cada jugador comienza teniendo 0 puntos
 		// for (int i=0;i<lasFichas.length;i++) lasFichas[i]=new Casilla();
 		setLasFichas(bolsa);
+		reinciaControlVH(); // iniciamos el control de las fichas
 	}
 
 	/**
@@ -52,17 +62,13 @@ public class Jugador {
 	 *            aleatorio cogerlo
 	 */
 	public void setLasFichas(Bolsa bolsa) {
-		boolean noHayFichas = false; // Comprueba si quedan fichas que coger,
-										// si no, no tiene sentido recorrer el
-										// bucle
-		for (int i = 0; (i < 7) && (noHayFichas == false); i++) {
+		for (int i = 0; (i < 7) && (bolsa.getQuedanFichas()); i++) {
 			// ahora recore el vector de ficha y aï¿½ade las que neceiste
-			// para que esto funcione una vez sacadas del jugador han de ponerse
-			// a null
+			// para que esto funcione una vez sacadas del jugador han de ponerse a null
 			if (lasFichas[i] == null) {
 				lasFichas[i] = bolsa.getFicha();
-				if (lasFichas[i] == null)
-					noHayFichas = true;
+				fichasNoUsadas[i]=true; // marcamos las fichas que se pueden utilizar
+				// al pedir nuevas ficha esa ficah ya se puede utilizar
 			}
 		}
 	}
@@ -74,16 +80,12 @@ public class Jugador {
 		boolean turno = false;
 		boolean salida;
 		int posx = 0, posy = 0, posicion;
-		// CadenaCasilla[] cadenaCasilla = new CadenaCasilla[15];
 		char caracter;
 		int contador = 0;
-		boolean[] fichasNoUsadas = new boolean[7];
 
-		for (int i = 0; i < 7; i++)
-			fichasNoUsadas[i] = true;
 		int sumaCuarenta = 0;
 		do {
-			System.out.print("¿Quieres jugar o pasar turno?: (J/T) ");
+			System.out.print("Jugador "+ getNombreJugador()+" ¿Quieres jugar o pasar turno?: (J/T) ");
 			caracter = leerCaracter("JugaroPasar");
 			// caracter tiene la opcion del juego
 
@@ -95,7 +97,7 @@ public class Jugador {
 					System.out.print("Selecciona tablero, mis fichas o validar: (T/M/V) ");
 					caracter = leerCaracter("OpcionTurno");
 					// en caracter tenemos el modo de juego, ahora pedimos las
-					// coordenada
+					// coordenadas
 					salida = false;
 					if ((caracter == 'M') || (caracter == 'T'))
 						do {
@@ -109,14 +111,19 @@ public class Jugador {
 								if (!tablero.getCasilla(posx, posy).isVacio())
 									System.out.println("Las coordenada introducida ya esta en uso, intentalo de nuevo");
 								else
-									salida = true;
+									salida = controlVH(posx, posy);
 								break;
 							case 'T':
 								if (tablero.getCasilla(posx, posy).isVacio())
 									System.out.println("La coordenada introducida no son de una ficha, intentalo de nuevo");
 								else
-									salida = true;
+									salida = controlVH(posx, posy);
 								break;
+								
+							}
+							if (!salida){ // si llegamos aqui es que las cooredeandas no son validas
+								System.out.println("Las letas han de estar en la misma fila y columna. De derecha a izquierda y de arriba a abajo");
+								System.out.println("Intentalo de nuevo: ");
 							}
 						} while (!salida);
 					salida = false;
@@ -144,17 +151,22 @@ public class Jugador {
 
 						contador++;
 						sumaCuarenta++;
+						// llamamos a pintar fichas "que se usan"
+						pintaFichas();
 					}
 					if (caracter == 'T') {
 
 						cadenaCasilla[contador] = tablero.getCasilla(posx, posy);
+						cadenaCasilla[contador].setFicha(tablero.getCasilla(posx, posy).getFicha());
 						jugador[contador] = false;
 						contador++;
 
 					}
 					if (caracter == 'V') {
 						validar = true;
-						for (int i = 0; i < 7; i++)
+						reinciaControlVH(); // reiniciamos el conrol de las letras H o V
+					      // se necesita por si la palabra es incorrecta que pinte toda las fichas
+						for (int i = 0; i < 7; i++) 
 							fichasNoUsadas[i] = true;
 					}
 				} while (!validar);
@@ -168,7 +180,7 @@ public class Jugador {
 
 					// si es comodin pedir letra y concadenar sino concadenar
 					if (cadenaCasilla[i].getFicha().getLetra() == '*') {
-						System.out.println("Introduce la letra con la que vas a jugar en el comodin: ");
+						System.out.print("Introduce la letra con la que vas a jugar en el comodin: ");
 						caracter = leerCaracter("Comodin");
 						palabraEvaluar = palabraEvaluar.concat(Character.toString(caracter));
 					} else
@@ -205,18 +217,15 @@ public class Jugador {
 						if (jugador[i] == true) {
 							cadenaCasilla[i].setVacio(false);
 							tablero.setCasilla(cadenaCasilla[i]);
-							lasFichas[posicionLetra[i]] = null;
-							// lasFichas[cadenaCasilla[i].getPosicion()]= new Ficha(); /////????
+							lasFichas[posicionLetra[i]]=null;
+						}
+						else {
+							tablero.setCasilla(cadenaCasilla[i]);
 						}
 					}
 				}
 				sumaCuarenta = 0;
 				contador = 0;
-				// borrado del vector hay que hacerlo tanto si esta en el
-				// diccionario como si no para el siguiente paso
-				for (int i = 0; i < cadenaCasilla.length; i++)
-					//
-					cadenaCasilla[i] = null;
 			} else {// pasamos turno
 				if (pasoTurnos == true)
 					numeroJuegos++;
@@ -227,6 +236,9 @@ public class Jugador {
 		} while (turno == false);
 		// pedimos nuevas fichas
 		setLasFichas(bolsa);
+		///////////////////////////////////
+		System.out.println("quedan en la bolsa "+bolsa.getNumeroFichas()+" fichas");
+		//////////////////////////////////
 	}
 
 	/**
@@ -245,41 +257,59 @@ public class Jugador {
 	}
 
 	/**
-	 * @param Establece
-	 *            el nombre del jugador
+	 * Establece el nombre del jugador
+	 * @param nombre
 	 */
 	public void setNombreJugador(String nombreJugador) {
 		this.nombreJugador = nombreJugador;
 	}
 
 	/**
-	 * @return devuelve la puntuacion
+	 * @return devuelve la puntuacion del jugaor 
 	 */
 	public int getPuntuacion() {
 		return puntuacion;
 	}
 
 	/**
-	 * @param establece
-	 *            la nueva puntuacion
+	 * Establece la nueva puntuacion del jugador sumando a la anterior
+	 * 
+	 * @param puntuacion, La puntuacion a sumar a la anterior.
 	 */
 	public void setPuntuacion(int puntuacion) {
 		this.puntuacion = this.puntuacion + puntuacion;
 	}
 
+	/**
+	 * Pinta las fichas del jugador
+	 */
 	public void pintaFichas() {
-
-		System.out.println("Nombre del jugador: " + getNombreJugador());
+		String pintaLetra=null;
+		String pintaValor=null;
+		System.out.println("Nombre del jugador: " + getNombreJugador()+"\tPuntuacion: "+getPuntuacion());
+		System.out.println("-----------------------------");
+		for(int i=0;i<7;i++){
+			System.out.print("| " + i + " ");
+		}
+		System.out.println("| Posicion");
 		System.out.println("-----------------------------");
 		for (int i = 0; i < 7; i++) {
-			System.out.print("| " + lasFichas[i].getLetra() + " ");
+			if (fichasNoUsadas[i]==false)
+				pintaLetra=" ";
+			else
+				pintaLetra=String.valueOf(lasFichas[i].getLetra());
+			
+			System.out.print("| " + pintaLetra + " ");
 		}
-		System.out.println("|");
+		System.out.println("| Letras");
 		System.out.println("-----------------------------");
 		for (int i = 0; i < 7; i++) {
-			System.out.print("| " + lasFichas[i].getValor() + " ");
+			if (fichasNoUsadas[i]==false)
+				pintaValor=" ";
+			else pintaValor=String.valueOf(lasFichas[i].getValor());
+			System.out.print("| " + pintaValor + " ");
 		}
-		System.out.println("|");
+		System.out.println("| Valor de las letras");
 		System.out.println("-----------------------------");
 
 	}
@@ -302,11 +332,15 @@ public class Jugador {
 				caracter = s.charAt(0);
 				switch (modo) {
 				case "Comodin":
-					if (Character.isAlphabetic(caracter))
-						if ((caracter != 'K') && (caracter != 'W'))
-							System.out.println("Solo son validas las letras menos la K y la W");
+					if (Character.isAlphabetic(caracter)){
+						if ((caracter == 'K') && (caracter == 'W')) // si es la k o w
+							System.out.println("Solo son validas las letras menos la K y la W: ");
 						else
 							salida = true;
+					}
+					else{ // si se escriben caracteres que no son letras
+						System.out.println("Solo son validas las letras menos la K y la W: ");
+					}
 					break;
 				case "HoV":
 					if ((caracter != 'H') && (caracter != 'V'))
@@ -362,6 +396,53 @@ public class Jugador {
 			}
 		} while (!salida);
 		return numero;
+	}
+	
+	/**
+	 * Este metodo devuelve true o false si las coordeandas introducidas esta en linea con las anteriores
+	 * 
+	 * @param posx, Posicion de la coordenada x
+	 * @param posy, Posicion de la coordeanda y
+	 * @return True, si las coordenadas introducidas estan en linea con las anteriores ya sea vertical u horizontal
+	 * devuelve false, en caso de que no esten alineadas.
+	 * 
+	 */
+	private boolean controlVH(int posx, int posy){
+		if (posxanterior==-1){
+			posxanterior=posx;
+			posyanterior=posy;
+			return true;
+		}
+		else{
+			if (direccion==0){
+				if ((posx==posxanterior)&& (posy>posyanterior)){
+					direccion=1; //es vertical
+					return true;
+				}
+				if ((posy==posyanterior)&& (posx>posxanterior)){
+					direccion=-1;//es horizontal
+					return true;
+				}
+			}
+			else {
+				if (direccion==1)
+					return ((posx==posxanterior)&& (posy>posyanterior));
+				else 
+					return ((posy==posyanterior)&& (posx>posxanterior));
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * Inicializa las variables usadas en el controlo de las filas verticales y horizontales
+	 * Este metodo ha de se llamado cada vez que se valide una palabra para poder controlar la 
+	 * siguiente palabra introducida
+	 */
+	private void reinciaControlVH(){
+		posxanterior=-1;
+		posyanterior=-1;
+		direccion=0;
 	}
 
 }

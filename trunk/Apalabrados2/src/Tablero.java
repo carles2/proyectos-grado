@@ -97,7 +97,16 @@ public class Tablero {
 	 *            casilla
 	 */
 	public void setCasilla(Casilla casilla) {
-		elTablero[casilla.getPosicionX()][casilla.getPosicionY()] = casilla;
+		int x,y;
+		x=casilla.getPosicionX();
+		y=casilla.getPosicionY();
+		elTablero[x][y].setFicha(casilla.getFicha());
+		elTablero[x][y].setPosicionX(x);
+		elTablero[x][y].setPosicionY(y);
+		elTablero[x][y].setVacio(casilla.isVacio());
+		elTablero[x][y].setPrimeraVez(casilla.isPrimeraVez());
+
+
 	}
 
 	/**
