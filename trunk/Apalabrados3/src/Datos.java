@@ -42,5 +42,7 @@ public class Datos {
 	public static final String LETRA_COMODIN= "./resources/comodin.GIF";
 	
 	public static final String FONDO_TABLERO= "./resources/fondo.gif";
+	
+	public static final String SOPORTE_FICHAS = "./resources/soporte.png";
 
 }

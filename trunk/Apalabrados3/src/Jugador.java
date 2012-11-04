@@ -1,8 +1,13 @@
+import java.awt.Graphics;
+import java.awt.Image;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class Jugador {
+import javax.swing.ImageIcon;
+import javax.swing.JPanel;
+
+public class Jugador extends JPanel{
 	private Ficha[] lasFichas = new Ficha[7];
 	private String nombreJugador;
 	private int puntuacion;
@@ -17,6 +22,7 @@ public class Jugador {
 	 private int posyanterior;
 	 private int direccion;
 	//
+	 private Image soporte;
 
 	Jugador(Bolsa bolsa) {
 		this("Jugador", bolsa);
@@ -41,6 +47,8 @@ public class Jugador {
 		for (int i =0 ;i<fichasNoUsadas.length;i++){
 			fichasNoUsadas[i]=true;
 		}
+		
+		soporte = new ImageIcon(Datos.SOPORTE_FICHAS).getImage();
 
 		puntuacion = 0; // Cada jugador comienza teniendo 0 puntos
 		// for (int i=0;i<lasFichas.length;i++) lasFichas[i]=new Casilla();
@@ -153,6 +161,7 @@ public class Jugador {
 						sumaCuarenta++;
 						// llamamos a pintar fichas "que se usan"
 						pintaFichas();
+						repaint();
 					}
 					if (caracter == 'T') {
 
@@ -236,6 +245,7 @@ public class Jugador {
 		} while (turno == false);
 		// pedimos nuevas fichas
 		setLasFichas(bolsa);
+		repaint();
 		///////////////////////////////////
 		System.out.println("quedan en la bolsa "+bolsa.getNumeroFichas()+" fichas");
 		//////////////////////////////////
@@ -445,4 +455,26 @@ public class Jugador {
 		direccion=0;
 	}
 
+	public void paintComponent(Graphics g){
+		//Dibujar el fondo del formulario 
+		super.paintComponents(g);
+
+		//Dibujar el tablero
+		g.drawImage(soporte, 0, 0, 369, 68, this);
+		
+		//Dibujar las fichas que se encuentran sobre el tablero
+		int x=15;
+		for(int i=0; i<7; i++){
+			if (fichasNoUsadas[i]){
+				g.drawImage(lasFichas[i].getImagen(), x, 15, 35, 35, this);
+			}
+			x=x+50;
+
+		}
+		
+		
+
+		setOpaque(false);
+
+	}
 }
