@@ -1,10 +1,16 @@
+import java.awt.Image;
+
+import javax.swing.ImageIcon;
+
 public class Ficha {
 	private char letra;
 	private int valor;
+	private Image imagen;
 
-	Ficha(char letra, int valor) {
+	Ficha(char letra, int valor,String recurso) {
 		this.letra = letra;
 		this.valor = valor;
+		this.imagen= new ImageIcon(recurso).getImage();
 	}
 
 	Ficha() {
@@ -38,6 +44,14 @@ public class Ficha {
 	 */
 	public void setValor(int valor) {
 		this.valor = valor;
+	}
+	
+	/**
+	 * Devuelve la imagen asociada a esa ficha
+	 * @return la imagen de la ficha
+	 */
+	public Image getImagen(){
+		return imagen;
 	}
 
 }

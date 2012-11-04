@@ -1,9 +1,25 @@
-public class Tablero {
+import java.awt.Graphics;
+import java.awt.Image;
+
+import javax.swing.JPanel;
+
+
+import javax.swing.ImageIcon;
+
+public class Tablero extends JPanel{
 
 	private Casilla[][] elTablero;
+	private Image fondoTablero;
 
 	Tablero() {
+		/*super();
+		setLayout(null);
+		JPanel p = new JPanel();*/
+		fondoTablero = new ImageIcon(Datos.FONDO_TABLERO).getImage();
+		
+		
 
+		
 		elTablero = new Casilla[15][];
 		for (int i = 0; i < 15; i++) {
 			// asigno en memoria para cada fila
@@ -65,7 +81,7 @@ public class Tablero {
 
 		}
 		elTablero[7][7].setVacio(false);
-		elTablero[7][7].setFicha(new Ficha('*', 0));
+		elTablero[7][7].setFicha(new Ficha('*', 0,Datos.LETRA_COMODIN));
 		elTablero[7][7].setPosicionX(7);
 		elTablero[7][7].setPosicionY(7);
 	}
@@ -114,6 +130,7 @@ public class Tablero {
 	 * no se me ocurre como hacerlo aun.
 	 */
 	public void pintaTablero() {
+		//paintComponents(this);
 		System.out.println("-------------------------------------------------------------");
 		for (int i = 0; i < 15; i++) {
 
@@ -123,14 +140,50 @@ public class Tablero {
 					System.out.print(elTablero[j][i].getTCasilla() + " ");
 				else if (elTablero[j][i].isVacio())
 					System.out.print("   ");
-				else
+				else{
 					System.out.print(" "+ elTablero[j][i].getFicha().getLetra() + " ");
+					
+				}
+					
 
 			}
 			System.out.println("|");
 			System.out.println("-------------------------------------------------------------");
 
 		}
+	}
+	
+
+	
+	public void paintComponent(Graphics g){
+		//Dibujar el fondo del formulario 
+		super.paintComponents(g);
+
+		//Dibujar el tablero
+		g.drawImage(fondoTablero, 0, 0, 526, 526, this);
+		
+		//Dibujar las fichas que se encuentran sobre el tablero
+		for(int i=0; i<15; i++){
+			for(int j=0; j<15; j++){
+				if (!elTablero[i][j].isVacio()){
+					g.drawImage(elTablero[i][j].getFicha().getImagen(), i*35, j*35, 35, 35, this);
+				}
+			}
+		}
+		
+		
+
+		setOpaque(false);
+
+	//super.paintComponent(g);
+		
+		/*
+		 * g.drawString("Quedan en la Bolsa: " + bolsa.getLettersOnBag() + " dic:" + Diccionario.getDiccionario().size(), 600, 300);
+		//Dibujar las fichas que no se encuentran en el tablero
+		for(int i=0; i<Lista.size(); i++){
+			sImageIcon temp = Lista.get(i);
+			g.drawImage(temp.getImage(), temp.getX(), temp.getY(), 35, 35, this);
+		}*/
 	}
 
 }
