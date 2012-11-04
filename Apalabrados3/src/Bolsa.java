@@ -1,3 +1,4 @@
+import java.io.DataInputStream;
 import java.util.Random;
 
 public class Bolsa {
@@ -18,10 +19,11 @@ public class Bolsa {
 		 *  3 puntos: B*2, C*4, M*2, P*2 
 		 *  4 puntos: F*1, H*2, V*1, Y*1 
 		 *  5 putnos: Q*1
-		 *  8 puntos: J*1, ï¿½*1, X*1 
-		 *  10 puntos: Z*1 no esta la K ni la W, pero se podrian aï¿½adir a la de 10 puntos
+		 *  8 puntos: J*1, X*1 
+		 *  10 puntos: Ñ*1, Z*1 no esta la K ni la W, pero se podrian aï¿½adir a la de 10 puntos
 		 */
 
+/* 
 		int[] abecedario[]=new int[26][]; //Matriz Letra|Tupla(Valor|Cantidad)
 		int iterador=0;
 		for (int i=65;i<=90;i++)
@@ -37,55 +39,58 @@ public class Bolsa {
 		abecedario[iterador]=HallarTuplaVC(165);
 		iterador++;
 		abecedario[iterador]=HallarTuplaVC(42);
+*/		
 		
-		/*
-		int abecedario[][] = { 
+		Object abecedario[][] = { 
 				
-				{ 65, 1, 12 }, // Letra A, Valor de A, numero de A
-				{ 66, 3, 2 }, // Letra B
-				{ 67, 3, 4 }, // Letra C
-				{ 68, 2, 5 }, // Letra D
-				{ 69, 1, 12 }, // Letra E
-				{ 70, 4, 1 }, // Letra F
-				{ 71, 2, 2 }, // Letra G
-				{ 72, 4, 2 }, // Letra H
-				{ 73, 1, 6 }, // Letra I
-				{ 74, 8, 1 }, // Letra J
-				{ 76, 1, 4 }, // Letra L
-				{ 77, 3, 2 }, // Letra M
-				{ 78, 1, 5 }, // Letra N
-				{ 165, 8, 1 }, // Letra ï¿½
-				{ 79, 1, 9 }, // Letra O
-				{ 80, 3, 2 }, // Letra P
-				{ 81, 5, 1 }, // Letra Q
-				{ 82, 1, 5 }, // Letra R
-				{ 83, 1, 6 }, // Letra S
-				{ 84, 1, 4 }, // Letra T
-				{ 85, 1, 5 }, // Letra U
-				{ 86, 4, 1 }, // Letra V
-				{ 88, 8, 1 }, // Letra X
-				{ 89, 4, 1 }, // Letra Y
-				{ 90, 10, 1 }, // Letra Z
-				{ 42, 0, 2 } // Comodin *
+				{ 65, 1, 12,Datos.LETRA_A}, // Letra A, Valor de A, numero de A, imagen de la ficha de A
+				{ 66, 3, 2 ,Datos.LETRA_B}, // Letra B
+				{ 67, 3, 4, Datos.LETRA_C }, // Letra C
+				{ 68, 2, 5,Datos.LETRA_D }, // Letra D
+				{ 69, 1, 12,Datos.LETRA_E }, // Letra E
+				{ 70, 4, 1, Datos.LETRA_F }, // Letra F
+				{ 71, 2, 2,Datos.LETRA_G}, // Letra G
+				{ 72, 4, 2,Datos.LETRA_H}, // Letra H
+				{ 73, 1, 6, Datos.LETRA_I}, // Letra I
+				{ 74, 8, 1,Datos.LETRA_J}, // Letra J
+				//{75,5,1, Datos.Letra_K}, // Letra K
+				{ 76, 1, 4, Datos.LETRA_L}, // Letra L
+				{ 77, 3, 2, Datos.LETRA_M}, // Letra M
+				{ 78, 1, 5,Datos.LETRA_N }, // Letra N
+				{ 165, 10, 1, Datos.LETRA_ENIE}, // Letra ï¿½
+				{ 79, 1, 9, Datos.LETRA_O}, // Letra O
+				{ 80, 3, 2, Datos.LETRA_P}, // Letra P
+				{ 81, 5, 1, Datos.LETRA_Q}, // Letra Q
+				{ 82, 1, 5, Datos.LETRA_R}, // Letra R
+				{ 83, 1, 6, Datos.LETRA_S}, // Letra S
+				{ 84, 1, 4, Datos.LETRA_T}, // Letra T
+				{ 85, 1, 5, Datos.LETRA_U}, // Letra U
+				{ 86, 4, 1, Datos.LETRA_V}, // Letra V
+				//{87, 10,1, Datos.LETRA_W}, // Letra W
+				{ 88, 8, 1, Datos.LETRA_X}, // Letra X
+				{ 89, 4, 1, Datos.LETRA_Y}, // Letra Y
+				{ 90, 10, 1, Datos.LETRA_Z}, // Letra Z
+				{ 42, 0, 2, Datos.LETRA_COMODIN} // Comodin *
 		};
             
 
 
-*/
+
 		usado = new boolean[Datos.NUMERO_FICHAS];
 		numeroFichas = Datos.NUMERO_FICHAS;
 		miBolsa = new Ficha[Datos.NUMERO_FICHAS];
+		int aux;
 		
-        // segundo metodo de creacion de las fichas
-        /* 
+// /*        // segundo metodo de creacion de las fichas
+		aux=0;
        for (int i = 0; i < abecedario.length; i++) {
-                  for (int j = 0; j < abecedario[i][2]; j++) {
-                          miBolsa[aux] = new Ficha((char) abecedario[i][0], abecedario[i][1]);
+                  for (int j = 0; j < (int)abecedario[i][2]; j++) {
+                          miBolsa[aux] = new Ficha((char)(int)abecedario[i][0],(int) abecedario[i][1],(String) abecedario[i][3]);
                           aux++;
                   }
           }
         
-        */
+/*
 		int aux = 0;
 		int[] tuplaAux=new int[2];
 		int tope;
@@ -134,7 +139,9 @@ public class Bolsa {
 		ModificarValorCaracterenBolsa('B',344);
 		MostrarBolsa();
 		System.out.println(toString());
+*/		
 	}
+
 
 	/**
 	 * sacamos una ficha de forma aleatoria de la bolsa y cuando la sacamos la
