@@ -4,7 +4,10 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.HashSet;
 import java.util.Set;
-
+/**
+ * @author Enrique J Miguel Calvo y José Luis Urbano
+ * 
+ */
 public class Diccionario {
 	// crea el diccionario en tabla hash para insercciones y consultas mas
 	// rapidas
@@ -35,11 +38,12 @@ public class Diccionario {
 
 	/**
 	 * 
-	 * @param cadena de entrada a comprobar
+	 * @param cadena
+	 *            de entrada a comprobar
 	 * @return devuelve true, si la cadena esta en el diccionario, false si no
 	 *         esta en el diccionario.
 	 */
-	public boolean EsValida(String cadena) {
+	synchronized public boolean EsValida(String cadena) {
 		return miDiccionario.contains(cadena);
 	}
 }

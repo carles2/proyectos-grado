@@ -3,23 +3,21 @@ import java.awt.Image;
 
 import javax.swing.JPanel;
 
-
 import javax.swing.ImageIcon;
 
-public class Tablero extends JPanel{
+/**
+ * @author Enrique J Miguel Calvo y José Luis Urbano
+ * 
+ */
+@SuppressWarnings("serial")
+public class Tablero extends JPanel {
 
 	private Casilla[][] elTablero;
 	private Image fondoTablero;
 
 	Tablero() {
-		/*super();
-		setLayout(null);
-		JPanel p = new JPanel();*/
 		fondoTablero = new ImageIcon(Datos.FONDO_TABLERO).getImage();
-		
-		
 
-		
 		elTablero = new Casilla[15][];
 		for (int i = 0; i < 15; i++) {
 			// asigno en memoria para cada fila
@@ -30,6 +28,28 @@ public class Tablero extends JPanel{
 			}
 		}
 		inicializa();
+	}
+
+	/**
+	 * 
+	 * @param posx
+	 * @param posy
+	 * @param Coordenada
+	 *            X
+	 * @param Coordenada
+	 *            Y
+	 * @return Devuelve la casilla del tablero de las cordenadas X,Y
+	 */
+	public synchronized Casilla getCasilla(int posx, int posy) {
+		return elTablero[posx][posy];
+	}
+
+	/**
+	 * 
+	 * @return devuelve el tablero de casillas actual
+	 */
+	public Casilla[][] getTablero() {
+		return elTablero;
 	}
 
 	/**
@@ -66,124 +86,65 @@ public class Tablero extends JPanel{
 			// casilla especial.
 			switch (matriz[i][2]) {
 			case 1:
-				elTablero[matriz[i][0]][matriz[i][1]].setTCasilla(Datos.TipoCasilla.DL);
+				elTablero[matriz[i][0]][matriz[i][1]]
+						.setTCasilla(Datos.TipoCasilla.DL);
 				break;
 			case 2:
-				elTablero[matriz[i][0]][matriz[i][1]].setTCasilla(Datos.TipoCasilla.TL);
+				elTablero[matriz[i][0]][matriz[i][1]]
+						.setTCasilla(Datos.TipoCasilla.TL);
 				break;
 			case 3:
-				elTablero[matriz[i][0]][matriz[i][1]].setTCasilla(Datos.TipoCasilla.DP);
+				elTablero[matriz[i][0]][matriz[i][1]]
+						.setTCasilla(Datos.TipoCasilla.DP);
 				break;
 			case 4:
-				elTablero[matriz[i][0]][matriz[i][1]].setTCasilla(Datos.TipoCasilla.TP);
+				elTablero[matriz[i][0]][matriz[i][1]]
+						.setTCasilla(Datos.TipoCasilla.TP);
 				break;
 			}
 
 		}
 		elTablero[7][7].setVacio(false);
-		elTablero[7][7].setFicha(new Ficha('*', 0,Datos.LETRA_COMODIN));
+		elTablero[7][7].setFicha(new Ficha('*', 0, -1, Datos.LETRA_COMODIN));
 		elTablero[7][7].setPosicionX(7);
 		elTablero[7][7].setPosicionY(7);
 	}
 
-	/**
-	 * 
-	 * @return devuelve el tablero de casillas actual
-	 */
-	public Casilla[][] getTablero() {
-		return elTablero;
+	@Override
+	public void paintComponent(Graphics g) {
+		// Dibujar el fondo del formulario
+		super.paintComponents(g);
+
+		// Dibujar el tablero
+		g.drawImage(fondoTablero, 0, 0, 526, 526, this);
+
+		// Dibujar las fichas que se encuentran sobre el tablero
+		for (int i = 0; i < 15; i++) {
+			for (int j = 0; j < 15; j++) {
+				if (!elTablero[i][j].isVacio()) {
+					g.drawImage(elTablero[i][j].getFicha().getImagen(), i * 35,
+							j * 35, 35, 35, this);
+				}
+			}
+		}
 	}
 
 	/**
 	 * 
-	 * @param Coordenada
-	 *            X
-	 * @param Coordenada
-	 *            Y
-	 * @return Devuelve la casilla del tablero de las cordenadas X,Y
-	 */
-	public Casilla getCasilla(int posx, int posy) {
-		return elTablero[posx][posy];
-	}
-
-	/**
-	 * 
+	 * @param casilla
 	 * @param Guarda
 	 *            una casilla en el tablero en la posicon de las coordenada de
 	 *            casilla
 	 */
-	public void setCasilla(Casilla casilla) {
-		int x,y;
-		x=casilla.getPosicionX();
-		y=casilla.getPosicionY();
+	public synchronized void setCasilla(Casilla casilla) {
+		int x, y;
+		x = casilla.getPosicionX();
+		y = casilla.getPosicionY();
 		elTablero[x][y].setFicha(casilla.getFicha());
 		elTablero[x][y].setPosicionX(x);
 		elTablero[x][y].setPosicionY(y);
 		elTablero[x][y].setVacio(casilla.isVacio());
 		elTablero[x][y].setPrimeraVez(casilla.isPrimeraVez());
 
-
 	}
-
-	/**
-	 * Funcion que pinta el tablero en la salida estandar el valor de la letra
-	 * no se me ocurre como hacerlo aun.
-	 */
-	public void pintaTablero() {
-		//paintComponents(this);
-		System.out.println("-------------------------------------------------------------");
-		for (int i = 0; i < 15; i++) {
-
-			for (int j = 0; j < 15; j++) {
-				System.out.print("|");
-				if (elTablero[j][i].isEspecial())
-					System.out.print(elTablero[j][i].getTCasilla() + " ");
-				else if (elTablero[j][i].isVacio())
-					System.out.print("   ");
-				else{
-					System.out.print(" "+ elTablero[j][i].getFicha().getLetra() + " ");
-					
-				}
-					
-
-			}
-			System.out.println("|");
-			System.out.println("-------------------------------------------------------------");
-
-		}
-	}
-	
-
-	
-	public void paintComponent(Graphics g){
-		//Dibujar el fondo del formulario 
-		super.paintComponents(g);
-
-		//Dibujar el tablero
-		g.drawImage(fondoTablero, 0, 0, 526, 526, this);
-		
-		//Dibujar las fichas que se encuentran sobre el tablero
-		for(int i=0; i<15; i++){
-			for(int j=0; j<15; j++){
-				if (!elTablero[i][j].isVacio()){
-					g.drawImage(elTablero[i][j].getFicha().getImagen(), i*35, j*35, 35, 35, this);
-				}
-			}
-		}
-		
-		
-
-		setOpaque(false);
-
-	//super.paintComponent(g);
-		
-		/*
-		 * g.drawString("Quedan en la Bolsa: " + bolsa.getLettersOnBag() + " dic:" + Diccionario.getDiccionario().size(), 600, 300);
-		//Dibujar las fichas que no se encuentran en el tablero
-		for(int i=0; i<Lista.size(); i++){
-			sImageIcon temp = Lista.get(i);
-			g.drawImage(temp.getImage(), temp.getX(), temp.getY(), 35, 35, this);
-		}*/
-	}
-
 }
